@@ -1,1 +1,1 @@
-alert("Hello from your Chrome extension!")
+//alert("Hello from your Chrome extension!")
