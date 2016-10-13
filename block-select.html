@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 
+
+
 	<head>
 		<title>Pages to Block</title>
-		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="menu_sheet.css">
+		<script src="tab_handler.js"></script>
+
 	</head>
 
 	<body>
@@ -12,6 +16,9 @@
 				<form>
 					<input type="text" name="new-block-list-entry" value="Add to block list" onselect="removeDefaultText('new-block-list-entry', 'Add to block list');" on />
 				</form>
+				<div>
+				<button class="button1" onclick="load_tabspace()">Create Tabspace</button>
+				</div>
 			</li>
 		</ul>
 	</body>
