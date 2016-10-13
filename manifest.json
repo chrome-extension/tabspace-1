@@ -9,6 +9,7 @@
     "default_icon": "ucsc.jpg",
     "default_popup": "popup.html"
   },
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
   "content_scripts": [
     {
         "matches": [

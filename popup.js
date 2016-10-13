@@ -1,24 +1,37 @@
-/*------Tabspace class ----------
-function Tabspace(){
-    
+/*------Tabspace class ----------*/
+function Tabspace(theName){
+    this.name = theName;
 }
 
 Tabspace.prototype = {
     constructor: Tabspace,
-    saveLink:function(link){
+   /* saveLink:function(link){
         
     },
     displayLinks:function(){
     
+    }*/
+    displayName:function(){
+        $('#dynamicTS').html("<button id='but'>" + this.name + "</button>");
+        console.log(this.name);
     }
 }
 
-*/
+var bttn2 = document.getElementById("createTS");
+if(bttn2){
+bttn2.addEventListener('click', saveTS);
+}
 
 /*Add on click listener to button*/
-var bttn = document.getElementById("button");
+var bttn = document.getElementById("submit");
 if(bttn){
 bttn.addEventListener('click', saveChanges);
+}
+
+function saveTS(){
+    var ts = document.getElementById("tabspace").value;
+    tabspace = new Tabspace(ts);
+    tabspace.displayName();
 }
 
 /*On click function to save form inputs*/
