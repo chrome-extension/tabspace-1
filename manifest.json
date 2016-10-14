@@ -11,7 +11,7 @@
         "matches": [
         "<all_urls>"
         ],
-        "js": ["content.js"]
+        "js": ["tab_handler.js"]
     }
   ]  
 
