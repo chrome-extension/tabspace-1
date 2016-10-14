@@ -1,3 +1,4 @@
+
 /*------Tabspace class ----------*/
 function Tabspace(theName){
     this.name = theName;
@@ -12,14 +13,39 @@ Tabspace.prototype = {
     
     }*/
     displayName:function(){
-        $('#dynamicTS').html("<button id='but'>" + this.name + "</button>");
+        var array = chrome.extension.getBackgroundPage().globalArray;
+        var html =  '<button>' + this.name + '</button>';
+        array.push(html);
+        chrome.storage.local.set({ globalArray: array});
+        $('#dynamicTable tr').append(html);
         console.log(this.name);
+        chrome.storage.local.get(function(result){
+            out = result.globalArray;
+            console.log(out);
+        });
     }
 }
+
+function displayButtons(){
+    console.log("Hello from background!");
+    chrome.storage.local.get(function(result){
+        if(result.globalArray){
+            out = result.globalArray;
+            for(var i = 0; i < out.length; i++){
+                var html = out[i];
+                console.log(html);
+                $('#dynamicTable tr').append(html);
+            }
+            
+        }
+    });
+}
+
 
 var bttn2 = document.getElementById("createTS");
 if(bttn2){
 bttn2.addEventListener('click', saveTS);
+displayButtons();
 }
 
 /*Add on click listener to button*/
@@ -71,3 +97,4 @@ function saveChanges(){
     });
     
 }
+ 
