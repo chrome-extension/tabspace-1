@@ -1,12 +1,20 @@
-var tabspace;
-chrome.storage.sync.get('tabspace', function (tabspace) {
-	console.log(tabspace);
-});
+var tabspaces = [];
+var blist;
+chrome.storage.sync.get('tabspace', function (Items) {
+	console.log(Items);
+	tabspaces.push(Items);
 
-for (var i = 0; i < tabspace.blacklisted.length(); i++) {
-	var re = new RegExp(tabspace.blacklisted[i]);
+	console.log(tabspaces[0].tabspace[0].blacklisted);
+	blist = tabspaces[0].tabspace[0].blacklisted;
+
+	console.log(blist);
+
+for (var i = 0; i < tabspaces[0].tabspace[0].blacklisted.length; i++) {
+	var re = new RegExp(tabspaces[0].tabspace[0].blacklisted[i]);
 	
 	if (re.test(window.location)) {
 		window.location = "http://camlewwri.com/tabspace/block-page.html";
 	}
 }
+});
+
