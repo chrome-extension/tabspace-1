@@ -10,7 +10,7 @@ if (checkStorage){
 	checkStorage.addEventListener('click', check_LocalStorage);
 }
 
-function Tabspace(urls){
+function Tabspace(urls, blacklisted){
 	this.urls = urls;
 	this.blacklisted = blacklisted;
 }
@@ -24,6 +24,7 @@ chrome.tabs.query({
 			returned_tabs = arrayOfTabs;			
 });
 
+var tempblacklist = ["twitter.com", "myspace.com"];
 
 function save_tabspace(){
 	var tabs = [];
@@ -33,7 +34,7 @@ function save_tabspace(){
 	}		
 			
 	console.log("# of tabs: " + tabs.length);
-	var createdTabspace = new Tabspace(tabs);
+	var createdTabspace = new Tabspace(tabs, tempblacklist);
 	tabspaces.push(createdTabspace);
 	console.log("createdTabspace: " + createdTabspace.urls);
 	console.log("tabspaces: " + tabspaces);
