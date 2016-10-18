@@ -11,9 +11,13 @@
         "matches": [
         "<all_urls>"
         ],
-        "js": ["tab_handler.js"]
+        "js": ["content.js"]
     }
-  ]  
+  ],
+  "permissions": [
+    "tabs",
+    "storage"
+]
 
 }
  
