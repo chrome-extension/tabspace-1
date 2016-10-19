@@ -1,4 +1,42 @@
 
+var spaces = [];
+
+chrome.storage.sync.get('tabspace', function (Items) {
+		console.log(Items);
+		spaces.push(Items.tabspace);
+		for (var i = 0; i < Items.tabspace.length; i++) {
+			var newButton = document.createElement('button');
+			newButton.id = 'tabspace' + i;
+			document.getElementsByTagName('body')[0].appendChild(newButton);
+			newButton.innerHTML = "tabspace " + i;
+
+			newButton.addEventListener('click', load_tabspace);
+		};
+	});
+
+function load_tabspace(){
+	//var newWindow = window.open();
+	console.log("spaces");
+	console.log(spaces);
+
+	chrome.tabs.query({}, function (tabs) {
+	    for (var i = 0; i < tabs.length; i++) {
+	        chrome.tabs.remove(tabs[i].id);
+	    }
+	});
+
+	for (var i = 0; i < spaces[0].length; i++) {
+		console.log("spaces" + i);
+		console.log(spaces[0][0].urls[i]);
+		tempUrl = spaces[0][0].urls[i];
+		
+		chrome.tabs.create({url: tempUrl});
+	}
+
+	
+}
+
+
 /*Add on click listener to button*/
 var bttn1 = document.getElementById("saveTabspace");
 if(bttn1){
