@@ -14,23 +14,23 @@ chrome.storage.sync.get('tabspace', function (Items) {
 		};
 	});
 
+var txtbox = document.getElementById('tbox');
+txtbox.innerHTML = "IN THE TEXT";
 function load_tabspace(){
-	//var newWindow = window.open();
-	console.log("spaces");
+	//var newWindow = window.open();	
 	console.log(spaces);
-
-	chrome.tabs.query({}, function (tabs) {
-	    for (var i = 0; i < tabs.length; i++) {
-	        chrome.tabs.remove(tabs[i].id);
-	    }
-	});
-
-	for (var i = 0; i < spaces[0].length; i++) {
+	txtbox.innerHTML = "IN THE TEXT TOO";
+	// chrome.tabs.query({}, function (tabs) {
+	//     for (var i = 0; i < tabs.length; i++) {
+	//         chrome.tabs.remove(tabs[i].id);
+	//     }
+	// });
+	for (var i = 0; i < spaces[0][0].urls.length; i++) {
 		console.log("spaces" + i);
 		console.log(spaces[0][0].urls[i]);
 		tempUrl = spaces[0][0].urls[i];
-		
-		chrome.tabs.create({url: tempUrl});
+		txtbox.innerHTML += tempUrl + "\n";
+		//chrome.tabs.create({url: tempUrl});
 	}
 
 	
