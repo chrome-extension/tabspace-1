@@ -1,42 +1,3 @@
-
-var spaces = [];
-
-chrome.storage.sync.get('tabspace', function (Items) {
-		console.log(Items);
-		spaces.push(Items.tabspace);
-		for (var i = 0; i < Items.tabspace.length; i++) {
-			var newButton = document.createElement('button');
-			newButton.id = 'tabspace' + i;
-			document.getElementsByTagName('body')[0].appendChild(newButton);
-			newButton.innerHTML = "tabspace " + i;
-
-			newButton.addEventListener('click', load_tabspace);
-		};
-	});
-
-var txtbox = document.getElementById('tbox');
-txtbox.innerHTML = "IN THE TEXT";
-function load_tabspace(){
-	//var newWindow = window.open();	
-	console.log(spaces);
-	txtbox.innerHTML = "IN THE TEXT TOO";
-	// chrome.tabs.query({}, function (tabs) {
-	//     for (var i = 0; i < tabs.length; i++) {
-	//         chrome.tabs.remove(tabs[i].id);
-	//     }
-	// });
-	for (var i = 0; i < spaces[0][0].urls.length; i++) {
-		console.log("spaces" + i);
-		console.log(spaces[0][0].urls[i]);
-		tempUrl = spaces[0][0].urls[i];
-		txtbox.innerHTML += tempUrl + "\n";
-		//chrome.tabs.create({url: tempUrl});
-	}
-
-	
-}
-
-
 /*Add on click listener to button*/
 var bttn1 = document.getElementById("saveTabspace");
 if(bttn1){
@@ -48,56 +9,110 @@ if (checkStorage){
 	checkStorage.addEventListener('click', check_LocalStorage);
 }
 
-function Tabspace(urls, blacklisted){
+function Tabspace(name, urls, blacklisted){
+	this.name = name
 	this.urls = urls;
 	this.blacklisted = blacklisted;
 }
 
-var tabspaces = []
-var returned_tabs = [];
+function loadButtons(){
+	
+	chrome.storage.sync.get(null, function (Items) {			
+			var i = 1;
+			for(var obj in Items){								
+				var curObj = Items[obj];				
+				var newButton = document.createElement('button');
 
-chrome.tabs.query({
-		lastFocusedWindow: true
-	},  function(arrayOfTabs){
-			returned_tabs = arrayOfTabs;			
-});
+				newButton.id = 'tabspace' + i;
+				document.getElementsByTagName('body')[0].appendChild(newButton);
+				newButton.innerHTML = "tabspace " + i;			
+
+				newButton.addEventListener('click', load_tabspace);
+				i++;
+			}			
+		});	
+}
+
+function load_tabspace(){
+
+	chrome.tabs.query({}, function (tabs) {
+	    for (var i = 0; i < tabs.length; i++) {
+	        chrome.tabs.remove(tabs[i].id);
+	    }
+	});	
+	
+	var currButton = this.id.toString();
+
+	chrome.storage.sync.get(null, function(Items){
+		for(var obj in Items){			
+			var curObj = Items[obj];			
+
+			if (curObj.name == currButton){
+				console.log("name matched: " + curObj.name);
+				console.log("this tabspaces urls: ");
+				
+				for(var url in curObj.urls){
+					var curUrl = curObj.urls[url];
+					console.log(curUrl);
+					chrome.tabs.create({url: curUrl});
+				}
+
+			}	
+		}
+	});
+	
+}
+
+//returns the number of current tabspaces
+function getCount(){
+	var count = 1;
+
+	chrome.storage.sync.get(null, function(Items){		
+		for (var obj in Items){						
+			count++;
+		}
+	});
+	return count;
+}
 
 var tempblacklist = ["twitter.com", "myspace.com"];
+loadButtons();
 
 function save_tabspace(){
 	var tabs = [];
+	var name = "default";
 
-	for (var i = 0; i < returned_tabs.length; i++) {
+	var count = getCount();
+
+	chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
+		for (var i = 0; i < returned_tabs.length; i++) {
 				tabs.push(returned_tabs[i].url);						
-	}		
-			
-	console.log("# of tabs: " + tabs.length);
-	var createdTabspace = new Tabspace(tabs, tempblacklist);
-	tabspaces.push(createdTabspace);
-	console.log("createdTabspace: " + createdTabspace.urls);
-	console.log("tabspaces: " + tabspaces);
-	
-	var newButton = document.createElement('button');
-	newButton.id = 'tabspace' + tabspaces.length;
-	console.log("newbutton id: " + newButton.id);
-	document.getElementsByTagName('body')[0].appendChild(newButton);
-	newButton.innerHTML = "tabspace " + tabspaces.length;
+		}			
+		var createdTabspace = new Tabspace(name, tabs, tempblacklist);		
+		var newButton = document.createElement('button');
+		newButton.id = 'tabspace' + count;
+		var keyId = newButton.id.toString();
+		createdTabspace.name = keyId;
+		var save = {};
+		save[keyId] = createdTabspace;
+		console.log(keyId);
+		document.getElementsByTagName('body')[0].appendChild(newButton);
+		newButton.innerHTML = "tabspace " + count;
 
 
-
-	chrome.storage.sync.set({'tabspace': tabspaces}, function(){
-		console.log('tabspace saved');
-	});
-
+		chrome.storage.sync.set(save, function(){
+			console.log('createdTabspace saved');
+		});
+	});					
 }
 
-//var dynamic_Button = document.getElementById('')
-
-
 function check_LocalStorage(){
-	chrome.storage.sync.get('tabspace', function (Items) {
+	chrome.storage.sync.get(null, function (Items) {
 		console.log(Items);
 	});
 }
 
-
+function testText(string){
+	var txtbox = document.getElementById('tbox');
+	txtbox.innerHTML = string;	
+}
