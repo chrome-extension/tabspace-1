@@ -7,7 +7,7 @@ etc) that separates concerns, keeps people on task, automatically opens tabs
 at class time and can optionally block access to websites, preventing procrastination.
 
 
-## What to put which code
+## Where to put which code
 ### manifest.json
 Describes the extension to Chrome. Defines required permissions and the actions to take
 on browser events such as new tabs. Please ask the other team members before making
