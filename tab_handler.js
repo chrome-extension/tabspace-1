@@ -65,14 +65,18 @@ function load_tabspace(){
 
 //returns the number of current tabspaces
 function getCount(){
-	var count = 1;
+	var count = 0;
 
 	chrome.storage.sync.get(null, function(Items){		
-		for (var obj in Items){						
+		for (var obj in Items){				
 			count++;
+			console.log("count inside get: " + count);					
 		}
+		return count
 	});
-	return count;
+
+	console.log("count after .get: " + count);
+	return -1;
 }
 
 var tempblacklist = ["twitter.com", "myspace.com"];
@@ -80,14 +84,14 @@ loadButtons();
 
 function save_tabspace(){
 	var tabs = [];
-	var name = "default";
-
-	var count = getCount();
+	var name = "default";	
 
 	chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
 		for (var i = 0; i < returned_tabs.length; i++) {
 				tabs.push(returned_tabs[i].url);						
 		}			
+		var count = getCount();			
+
 		var createdTabspace = new Tabspace(name, tabs, tempblacklist);		
 		var newButton = document.createElement('button');
 		newButton.id = 'tabspace' + count;
@@ -95,13 +99,13 @@ function save_tabspace(){
 		createdTabspace.name = keyId;
 		var save = {};
 		save[keyId] = createdTabspace;
-		console.log(keyId);
+//		console.log("keyId: " + keyId);
 		document.getElementsByTagName('body')[0].appendChild(newButton);
 		newButton.innerHTML = "tabspace " + count;
 
 
 		chrome.storage.sync.set(save, function(){
-			console.log('createdTabspace saved');
+			//console.log('createdTabspace saved');
 		});
 	});					
 }
