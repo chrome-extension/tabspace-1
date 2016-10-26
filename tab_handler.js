@@ -1,3 +1,7 @@
+//GLOBAL VARIABLES
+var tabArray = [];
+
+
 /*Add on click listener to button*/
 var bttn1 = document.getElementById("saveTabspace");
 if(bttn1){
@@ -17,20 +21,20 @@ function Tabspace(name, urls, blacklisted){
 
 function loadButtons(){
 	
-	chrome.storage.sync.get(null, function (Items) {			
-			var i = 1;
-			for(var obj in Items){								
-				var curObj = Items[obj];				
-				var newButton = document.createElement('button');
+	// chrome.storage.sync.get(null, function (Items) {			
+	// 		var i = 1;
+	// 		for(var obj in Items){								
+	// 			var curObj = Items[obj];				
+	// 			var newButton = document.createElement('button');
 
-				newButton.id = 'tabspace' + i;
-				document.getElementsByTagName('body')[0].appendChild(newButton);
-				newButton.innerHTML = "tabspace " + i;			
+	// 			newButton.id = 'tabspace' + i;
+	// 			document.getElementsByTagName('body')[0].appendChild(newButton);
+	// 			newButton.innerHTML = "tabspace " + i;			
 
-				newButton.addEventListener('click', load_tabspace);
-				i++;
-			}			
-		});	
+	// 			newButton.addEventListener('click', load_tabspace);
+	// 			i++;
+	// 		}			
+	// 	});	
 }
 
 function load_tabspace(){
@@ -63,21 +67,43 @@ function load_tabspace(){
 	
 }
 
+function getCount_Callback(newCount){
+	count = newCount;
+	console.log("in callback: " + count);
+
+}
+
 //returns the number of current tabspaces
-function getCount(){
-	var count = 0;
+function getCount(callback){
+	count = 0;
 
 	chrome.storage.sync.get(null, function(Items){		
 		for (var obj in Items){				
-			count++;
-			console.log("count inside get: " + count);					
+			count++;			
 		}
-		return count
-	});
-
-	console.log("count after .get: " + count);
-	return -1;
+		callback(count);						
+	});	
+	
 }
+
+function grabTabs_Callback(openTabs){
+	tabArray = openTabs
+	console.log("tabarray in callback:");
+	console.log(tabArray);
+}
+
+function grabTabs(callback){
+	//var tabs = [];
+
+	chrome.tabs.query({lastFocusedWindow:true}, callback);
+	// chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
+	// 	for (var i = 0; i < returned_tabs.length; i++) {
+	// 			tabs.push(returned_tabs[i].url);						
+	// 	}	
+	// 	callback(tabs);						
+	// });
+}
+
 
 var tempblacklist = ["twitter.com", "myspace.com"];
 loadButtons();
@@ -85,29 +111,32 @@ loadButtons();
 function save_tabspace(){
 	var tabs = [];
 	var name = "default";	
+	getCount(getCount_Callback);
+	grabTabs(grabTabs_Callback);
 
-	chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
-		for (var i = 0; i < returned_tabs.length; i++) {
-				tabs.push(returned_tabs[i].url);						
-		}			
-		var count = getCount();			
+	console.log("tabArray:");
+	console.log(tabArray);
 
-		var createdTabspace = new Tabspace(name, tabs, tempblacklist);		
-		var newButton = document.createElement('button');
-		newButton.id = 'tabspace' + count;
-		var keyId = newButton.id.toString();
-		createdTabspace.name = keyId;
-		var save = {};
-		save[keyId] = createdTabspace;
-//		console.log("keyId: " + keyId);
-		document.getElementsByTagName('body')[0].appendChild(newButton);
-		newButton.innerHTML = "tabspace " + count;
+	// chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
+	// 	for (var i = 0; i < returned_tabs.length; i++) {
+	// 			tabs.push(returned_tabs[i].url);						
+	// 	}							
+
+	// 	var createdTabspace = new Tabspace(name, tabs, tempblacklist);		
+	// 	var newButton = document.createElement('button');
+	// 	newButton.id = 'tabspace' + count;
+	// 	var keyId = newButton.id.toString();
+	// 	createdTabspace.name = keyId;
+	// 	var save = {};
+	// 	save[keyId] = createdTabspace;
+	// 	document.getElementsByTagName('body')[0].appendChild(newButton);
+	// 	newButton.innerHTML = "tabspace " + count;
 
 
-		chrome.storage.sync.set(save, function(){
-			//console.log('createdTabspace saved');
-		});
-	});					
+	// 	chrome.storage.sync.set(save, function(){
+	// 		//console.log('createdTabspace saved');
+	// 	});
+	// });					
 }
 
 function check_LocalStorage(){
