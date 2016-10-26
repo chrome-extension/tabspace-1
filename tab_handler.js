@@ -90,18 +90,39 @@ function grabTabs_Callback(openTabs){
 	tabArray = openTabs
 	console.log("tabarray in callback:");
 	console.log(tabArray);
+
+	console.log("tabArray in callback:");
+	console.log(tabArray);
+	console.log("count in callback:");
+	console.log(count);
+
+	var createdTabspace = new Tabspace(name, tabArray, tempblacklist);		
+	var newButton = document.createElement('button');
+	newButton.id = 'tabspace' + count;
+	var keyId = newButton.id.toString();
+	createdTabspace.name = keyId;
+	var save = {};
+	save[keyId] = createdTabspace;
+	document.getElementsByTagName('body')[0].appendChild(newButton);
+	newButton.innerHTML = "tabspace " + count;
+
+
+	chrome.storage.sync.set(save, function(){
+		//console.log('createdTabspace saved');
+	});					
 }
 
 function grabTabs(callback){
-	//var tabs = [];
+	var openTabs = [];
 
-	chrome.tabs.query({lastFocusedWindow:true}, callback);
-	// chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
-	// 	for (var i = 0; i < returned_tabs.length; i++) {
-	// 			tabs.push(returned_tabs[i].url);						
-	// 	}	
-	// 	callback(tabs);						
-	// });
+	//chrome.tabs.query({lastFocusedWindow:true}, callback);
+	chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
+		for (var i = 0; i < returned_tabs.length; i++) {
+				openTabs.push(returned_tabs[i].url);						
+		}	
+		callback(openTabs);						
+	});
+	
 }
 
 
@@ -114,8 +135,10 @@ function save_tabspace(){
 	getCount(getCount_Callback);
 	grabTabs(grabTabs_Callback);
 
-	console.log("tabArray:");
-	console.log(tabArray);
+	// console.log("tabArray:");
+	// console.log(tabArray);
+	// console.log("count:");
+	// console.log(count);
 
 	// chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
 	// 	for (var i = 0; i < returned_tabs.length; i++) {

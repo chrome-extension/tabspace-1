@@ -32,6 +32,6 @@ function getCount(callback){
 }
 
 getCount(getCount_Callback);
-alert(count);
+//alert(count);
 
 
