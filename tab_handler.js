@@ -2,23 +2,29 @@
 var tabArray = [];
 
 
-/*Add on click listener to button*/
-var bttn1 = document.getElementById("saveTabspace");
-if(bttn1){
-bttn1.addEventListener('click', save_tabspace);
+//Add on click listener to 'create new tabspace' button
+//This button will grab current open tabs and save them as tabspaceX
+//where X is 1,2,3,4....etc
+var newTSbttn = document.getElementById("saveTabspace");
+if(newTSbttn){
+newTSbttn.addEventListener('click', save_tabspace);
 }
 
+//used for debugging, this button prints out the values in storage to the console
 var checkStorage = document.getElementById("checkStorage");
 if (checkStorage){
 	checkStorage.addEventListener('click', check_LocalStorage);
 }
 
+//simple tabspace class
 function Tabspace(name, urls, blacklisted){
 	this.name = name
 	this.urls = urls;
 	this.blacklisted = blacklisted;
 }
 
+//reads all values from storage and loads them into their associated button 
+//in the popup menu
 function loadButtons(){
 	
 	chrome.storage.sync.get(null, function (Items) {			
@@ -37,6 +43,7 @@ function loadButtons(){
 		});	
 }
 
+//simple function that deletes open tabs and loads tabspace of the button clicked
 function load_tabspace(){
 
 	chrome.tabs.query({}, function (tabs) {
@@ -66,15 +73,16 @@ function load_tabspace(){
 	});	
 }
 
+//check how many tabspaces have been saved and set that number to count
 function getCount_Callback(newCount){
 	count = newCount;
-	console.log("in callback: " + count);
+	console.log("in getCount_callback: " + count);
 
 }
 
 //returns the number of current tabspaces
 function getCount(callback){
-	count = 0;
+	count = 1;
 
 	chrome.storage.sync.get(null, function(Items){		
 		for (var obj in Items){				
@@ -84,15 +92,10 @@ function getCount(callback){
 	});
 }
 
+//create a new tabspace with the urls of our open tabs
+//save these tabs to storage in tabspaceX format
 function grabTabs_Callback(openTabs){
-	tabArray = openTabs
-	console.log("tabarray in callback:");
-	console.log(tabArray);
-
-	console.log("tabArray in callback:");
-	console.log(tabArray);
-	console.log("count in callback:");
-	console.log(count);
+	tabArray = openTabs	
 
 	var createdTabspace = new Tabspace(name, tabArray, tempblacklist);		
 	var newButton = document.createElement('button');
@@ -110,6 +113,7 @@ function grabTabs_Callback(openTabs){
 	});					
 }
 
+//grab the current open tabs from the focused window.
 function grabTabs(callback){
 	var openTabs = [];
 
@@ -127,6 +131,7 @@ function grabTabs(callback){
 var tempblacklist = ["twitter.com", "myspace.com"];
 loadButtons();
 
+//main function that is called when 'save tabspace' button is clicked
 function save_tabspace(){
 	var tabs = [];
 	var name = "default";	
@@ -135,12 +140,14 @@ function save_tabspace(){
 						
 }
 
+//used for debug
 function check_LocalStorage(){
 	chrome.storage.sync.get(null, function (Items) {
 		console.log(Items);
 	});
 }
 
+//used for debug
 function testText(string){
 	var txtbox = document.getElementById('tbox');
 	txtbox.innerHTML = string;	
