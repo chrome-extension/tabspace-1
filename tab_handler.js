@@ -1,7 +1,6 @@
 //GLOBAL VARIABLES
 var tabArray = [];
 
-
 //Add on click listener to 'create new tabspace' button
 //This button will grab current open tabs and save them as tabspaceX
 //where X is 1,2,3,4....etc
@@ -77,7 +76,6 @@ function load_tabspace(){
 function getCount_Callback(newCount){
 	count = newCount;
 	console.log("in getCount_callback: " + count);
-
 }
 
 //returns the number of current tabspaces
