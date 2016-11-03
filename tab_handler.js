@@ -1,5 +1,3 @@
-//GLOBAL VARIABLES
-var tabArray = [];
 
 //Add on click listener to 'create new tabspace' button
 //This button will grab current open tabs and save them as tabspaceX
@@ -85,10 +83,10 @@ function getCount(callback){
 
 //create a new tabspace with the urls of our open tabs
 //save these tabs to storage in tabspaceX format
-function grabTabs_Callback(openTabs){
-	tabArray = openTabs	
+function grabTabs_Callback(openTabs){	
+	var tempblacklist = ["twitter.com", "myspace.com"];
 
-	var createdTabspace = new Tabspace(name, tabArray, tempblacklist);		
+	var createdTabspace = new Tabspace(name, openTabs, tempblacklist);		
 	var newButton = document.createElement('button');
 	newButton.id = 'tabspace' + count;
 	var keyId = newButton.id.toString();
@@ -118,12 +116,11 @@ function grabTabs(callback){
 }
 
 
-var tempblacklist = ["twitter.com", "myspace.com"];
 loadButtons();
 
 //main function that is called when 'save tabspace' button is clicked
 function save_tabspace(){
-	var tabs = [];
+	//var tabs = [];
 	var name = "default";	
 	getCount(getCount_Callback);
 	grabTabs(grabTabs_Callback);
