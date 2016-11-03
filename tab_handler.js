@@ -54,19 +54,12 @@ function load_tabspace(){
 	var currButton = this.id.toString();
 
 	chrome.storage.sync.get(null, function(Items){
+		
 		for(var obj in Items){			
 			var curObj = Items[obj];			
 
-			if (curObj.name == currButton){
-				console.log("name matched: " + curObj.name);
-				console.log("this tabspaces urls: ");
-				
-				for(var url in curObj.urls){
-					var curUrl = curObj.urls[url];
-					console.log(curUrl);
-					chrome.tabs.create({url: curUrl});
-				}
-
+			if (curObj.name == currButton){			
+				chrome.windows.create({url : curObj.urls});				
 			}	
 		}
 	});	
@@ -114,8 +107,7 @@ function grabTabs_Callback(openTabs){
 //grab the current open tabs from the focused window.
 function grabTabs(callback){
 	var openTabs = [];
-
-	//chrome.tabs.query({lastFocusedWindow:true}, callback);
+	
 	chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
 		for (var i = 0; i < returned_tabs.length; i++) {
 				openTabs.push(returned_tabs[i].url);						
