@@ -131,11 +131,14 @@ function save_tabspace(){
 function check_LocalStorage(){
 	chrome.storage.sync.get(null, function (Items) {
 		console.log(Items);
+		for(var url in Items.tabspace1.urls){
+			testText(Items.tabspace1.urls[url]);
+		}		
 	});
 }
 
 //used for debug
 function testText(string){
 	var txtbox = document.getElementById('tbox');
-	txtbox.innerHTML = string;	
+	txtbox.innerHTML += string + "\n\n\n";	
 }
