@@ -1,13 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
-<head>
-<h1>Testing</h1>
-</head>
-<body>
-<h2>More Testing</h2>
-</body>
+	<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>tabspace Menu</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet'            type='text/css'>
+	</head>
 
-<script src="popup.js"></script>
+    <body> 
+        <nav>
+            <div class="container">
 
+                <!-- FULL -->
+                <div class="full">
+
+                    <!-- TOP -->
+                    <div class="top">
+                    </div>
+
+                    <!-- NAVIGATION -->
+                    <div class="navigation">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">home</a>
+                            </li>
+                            <li>
+                                <a href="#create" data-toggle="tab">create</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- TAB CONTENT -->
+                    <div class = "tab-content">
+                        <div class="tab-pane fade in active" id="home">
+                            <p><br><br>Content inside tab A</p>
+                        </div>
+
+                        <div class="tab-pane fade" id="create">
+                            <center><p><br><br>
+                                tabspace name <br><br>
+                                <input type="text" placeholder="School, Project X"> <br><br>
+
+                                add tabs <br><br>
+                                <input type="text" id="textbox-add" placeholder="Input"></input>
+                                <ul id="list-add"></ul>
+
+                                block tabs <br><br>
+                                <input type="text" placeholder="www.twitter.com"> <br><br>
+                                <br><br>
+                                <input type="submit" value="Submit">
+
+                            </center></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <script src="popup.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+	</body>
 </html>
+

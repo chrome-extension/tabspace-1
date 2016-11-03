@@ -1,0 +1,28 @@
+#mylogo {
+    width:20px; 
+    height:20px; 
+}
+
+div.full{
+    width: 400px;
+    height: 800px;
+    font-family: Arial, Verdana, sans-serif;
+}
+
+div.top-left{
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+div.top-right{
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+div.center{
+    position: relative;
+    top: 50px;
+
+}

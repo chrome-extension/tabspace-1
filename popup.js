@@ -1,22 +1,32 @@
-// Open tabspace
-// get reference to element
-var openWindowBtn = document.getElementById('openWindow');
-
-openWindowBtn.addEventListener('click', function(event) {
-    chrome.windows.create({"url": "http://google.com"});
-});
-
-// Close current tabspace and open new tabspace
-// get reference to element
-//chrome.tabs.query({'active': true}, function(tabs) {
-    //chrome.tabs.remove(tabs[0].id);
-
-var switchWindowBtn = document.getElementById('switchWindow');
-
-switchWindowBtn.addEventListener('click', function(event) {
-    chrome.windows.getCurrent(function(currentWindow){
-        chrome.windows.remove(currentWindow.id);
-        chrome.windows.create({"url": "http://google.com"});
-    });
-});
+window.onload = function(){
     
+    // ADD TABS
+    // Enter key is pressed
+    addValue = document.getElementById("textbox-add");
+    addValue.addEventListener("keyup", function(event){
+        event.preventDefault();
+        if (event.keyCode == 13 && addValue.value != "") {
+            // Add tab url
+            var node = document.createElement("li");
+            var textnode = document.createTextNode(addValue.value);
+            node.appendChild(textnode);
+            document.getElementById("list-add").appendChild(node);
+            addValue.value = "";
+        }
+        else {
+            return false;
+        }
+
+        // Remove tab url
+        var removeTask = document.createElement('input');
+        removeTask.setAttribute('type', 'button');
+        removeTask.setAttribute("value", "x");
+        removeTask.setAttribute("id", "removeButton");
+        removeTask.addEventListener('click', function(e) {
+            node.parentNode.removeChild(node);
+        }, false);
+        node.appendChild(removeTask);
+    }
+    ) 
+
+};
