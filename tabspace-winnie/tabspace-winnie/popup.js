@@ -5,29 +5,40 @@ function Tabspace(theName){
     this.blocksArray = [];
 }
 
-/*-On Click function to save Tabspace object into chrome.storage ----------*/
+/*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
+Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
     var name = document.getElementById("textbox-name").value;
     tabspace = new Tabspace(name);
     $("#list-add li").each(function() { tabspace.linksArray.push($(this).text()) });
     $("#list-block li").each(function() { tabspace.blocksArray.push($(this).text()) });
-    chrome.storage.local.set({ tabspaces: tabspace});
+    chrome.storage.local.get(null, function(result){
+        var totalObjects = result.tabspaces;
+        totalObjects.push(tabspace);
+        //console.log(totalObjects);
+        chrome.storage.local.set({ tabspaces: totalObjects});
+        
+    });
     displayButtons();
     
 }
 
 /*-Start up  function to load tabspaces from chrome.storage 
-and display them as Buttons on the home page----------*/
+and display them as Buttons on the home page.
+Invokes setButtonClick function afterwards to set On-Click attributes for the generated buttons -*/
 function displayButtons(){
-
     chrome.storage.local.get(null, function(result){
-        for (tabspaces in result) {
-            console.log(result.tabspaces);
-            var html = '<li>' + '<button class="individualTS">' + result.tabspaces.name + '</button>' + '</li>';
-            $('#generateTabs').append(html);
+        console.log(result.tabspaces);
+        for(objects in result.tabspaces){
+            var tabObject = result.tabspaces[objects];
+            //console.log(tabObject);
+            var name = tabObject.name;
+            var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+            $('#generateTabs').append(html);   
         }
+        
     });
-    setTimeout(setButtonClick, 2000);
+    setTimeout(setButtonClick, 1000);
 }
 
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
@@ -42,29 +53,44 @@ function setButtonClick(){
     });
 }
 
-/*-On-Click function called by tabspace buttons to display links saved in the tabspace-*/
+/*-On-Click function called by tabspace buttons to display links saved in the linkArray attribute-*/
 function displayLinks(name){      
     var key = name;
     console.log(key);
     chrome.storage.local.get(null,function(result){
         console.log(result.tabspaces.name);
-        for(tabspaces in result){
-            if(result.tabspaces.name == key){
-                var array = result.tabspaces.linksArray;
+        for(objects in result.tabspaces){
+            var tabObject = result.tabspaces[objects];
+            if(tabObject.name == key){
+                var array = tabObject.linksArray;
                 for(link in array){
                     var obj = array[link];
                     chrome.tabs.create({active: true, url: obj});
                 }
             }
         }
+            
+        
     });
 }
 
 
 window.onload = function(){
-    //Display saved tabspaces as buttons and set on click attribute
-    displayButtons();
+    //Get global array variable and make initial query to see if storage object is empty. If empty, initialize object
+    var totalObjects = chrome.extension.getBackgroundPage().totalObjects;
+    chrome.storage.local.get(null, function(result){
+        if(result.tabspaces == null){
+            chrome.storage.local.set({ tabspaces: totalObjects});
+        }else{
+        console.log(result.tabspaces);
+        }
+    });
     
+   
+    //Display saved tabspaces as buttons and set on click attribute
+    //setTimeout(displayButtons, 2000);
+    displayButtons();
+   
     //Set on click attribute for submit button
     var submitButton = document.getElementById("submitButton").addEventListener('click', saveTS);;
     

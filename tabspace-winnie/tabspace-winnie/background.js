@@ -1,7 +1,4 @@
-globalArray = new Array();
+/*--- Global Variables ---*/
+var totalObjects = []; 
 
 
-
-function test(){
-    console.log("Ok dis works");
-}
