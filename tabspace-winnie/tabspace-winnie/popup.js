@@ -8,9 +8,23 @@ function Tabspace(theName){
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
+    var substring = "https://";
     var name = document.getElementById("textbox-name").value;
     tabspace = new Tabspace(name);
-    $("#list-add li").each(function() { tabspace.linksArray.push($(this).text()) });
+    $("#list-add li").each(function() { 
+        var fullSiteName = "";
+        var sitename = $(this).text();
+        console.log(sitename);
+        if(sitename.includes(substring) !== true){
+            console.log("No https string");
+            fullSiteName = substring.concat(sitename);
+            console.log(fullSiteName);
+        }else{
+            fullSiteName = sitename;
+            console.log(fullSiteName);
+        }
+        tabspace.linksArray.push(fullSiteName); 
+    });
     $("#list-block li").each(function() { tabspace.blocksArray.push($(this).text()) });
     chrome.storage.local.get(null, function(result){
         var totalObjects = result.tabspaces;
@@ -19,8 +33,11 @@ function saveTS(){
         chrome.storage.local.set({ tabspaces: totalObjects});
         
     });
-    displayButtons();
-    
+    //Append button to DOM
+    var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+    $('#generateTabs').append(html);  
+    //Set On Click attribute
+    setButtonClick();
 }
 
 /*-Start up  function to load tabspaces from chrome.storage 
@@ -45,8 +62,7 @@ function displayButtons(){
 Possibly do this async/more efficiently? ----------*/
 function setButtonClick(){
     $(".individualTS").each(function(){
-        var name = this.innerText;
-        console.log("Name of tabspace: " + name);       
+        var name = this.innerText;     
         this.addEventListener("click", function(){
             displayLinks(name);
         }, false);
