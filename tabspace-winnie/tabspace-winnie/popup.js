@@ -90,6 +90,11 @@ function displayLinks(name){
     });
 }
 
+//Function to load edit page
+function loadEditPage(){
+    chrome.tabs.create({active: true, url: chrome.extension.getURL('editTS.html')});
+}
+
 
 window.onload = function(){
     //Get global array variable and make initial query to see if storage object is empty. If empty, initialize object
@@ -102,7 +107,9 @@ window.onload = function(){
         }
     });
     
-   
+    //Set on click attribute for edit button
+    var editBttn = document.getElementById("editBttn").addEventListener('click', loadEditPage);
+    
     //Display saved tabspaces as buttons and set on click attribute
     //setTimeout(displayButtons, 2000);
     displayButtons();

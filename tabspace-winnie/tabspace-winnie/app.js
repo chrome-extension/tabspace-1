@@ -3,7 +3,7 @@ var app = angular.module('myApp', []);
 
 // create angular controller
 app.controller('createController', function($scope) {
-     $scope.required = true;
+    
   // function to submit the form after all validation has occurred            
   $scope.submitForm = function(isValid) {
 
