@@ -107,8 +107,8 @@ window.onload = function(){
         }
     });
     
-    //Set on click attribute for edit button
     var editBttn = document.getElementById("editBttn").addEventListener('click', loadEditPage);
+    
     
     //Display saved tabspaces as buttons and set on click attribute
     //setTimeout(displayButtons, 2000);
