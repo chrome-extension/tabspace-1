@@ -1,4 +1,11 @@
 
+//need to put the tabspace objects into an array, i suppose. Then use whatever storage
+//thing he's using to make sure it stores
+
+//var tabspace_array = [];
+//when they make a new tabspace, add it to the tabspace array using 
+//tabspace_array.push(new_tabspace);
+
 /*------Tabspace class ----------*/
 function Tabspace(theName){
     this.name = theName;
@@ -14,9 +21,13 @@ Tabspace.prototype = {
     }*/
     displayName:function(){
         var array = chrome.extension.getBackgroundPage().globalArray;
+        ts_name = escape(this.name)
+        ts_name.replace("%20", ' ')
+            
         var html =  '<button>' + this.name + '</button>';
         array.push(html);
         chrome.storage.local.set({ globalArray: array});
+        
         $('#dynamicTable tr').append(html);
         console.log(this.name);
         chrome.storage.local.get(function(result){
@@ -45,6 +56,7 @@ function displayButtons(){
 var bttn2 = document.getElementById("createTS");
 if(bttn2){
 bttn2.addEventListener('click', saveTS);
+tabspace_array.push(saveTS);
 displayButtons();
 }
 
@@ -64,7 +76,8 @@ function saveTS(){
 function saveChanges(){
     var substring = "https://";
     var fullSitename = "";
-    
+    //do a loop to save all elems in tabspace array
+    //for (var i = 0; i < tabspace_array; i++)
     console.log("This works\n");
     var ts = document.getElementById("tabspace").value;
     var sitename = document.getElementById("website").value;
