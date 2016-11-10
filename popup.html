@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html ng-csp="no-unsafe-eval" ng-app="myApp" >
+
+	<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>tabspace Menu</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+         
+        <link rel="stylesheet" href="css/angular-csp.css" />
+	</head>
+
+    <body> 
+        <nav>
+            <div class="container" >
+
+                <!-- FULL -->
+                <div class="full">
+
+                    <!-- TOP -->
+                    <div class="top">
+                    </div>
+
+                    <!-- NAVIGATION -->
+                    <div class="navigation">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">home</a>
+                            </li>
+                            <li>
+                                <a href="#create" data-toggle="tab">create</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- TAB CONTENT -->
+                    <div class = "tab-content"> 
+                        <button type="button" id="checkStorage">check storage</button><br><br>
+                        <button type="button" id="newTabspaceFromTabs"> Create Tabspace From Current Tabs </button><br>
+                        <div class="tab-pane fade in active" id="home">
+                            <p><br><br>Tabspaces</p>
+                            <ul id="generateTabs"></ul>
+                            <br>
+                            <div id="Edit">
+                                <button type="button" id="editBttn">Edit</button>
+                            </div> 
+                           
+                        </div>
+
+                        <div class="tab-pane fade" id="create">
+                            <form name="create_form" ng-submit="submitForm($event)" novalidate ng-controller="createController">
+                            <center><p><br><br>
+                                tabspace name <br><br>
+                                <span ng-show="create_form.$invalid && create_form.$dirty " >Name is required.</span>
+                                <input type="text" id="textbox-name" placeholder="School, Project X" ng-model="name" required> <br><br>
+                               
+                                add tabs <br><br>
+                                
+                                </form>
+                                <input type="text" id="textbox-add" placeholder="www.google.com" ng-model="add" ng-minlength="4"></input><br><br>
+                                <ul id="list-add"></ul>
+                                    
+                                block tabs <br><br>
+                                
+                                <input type="text" id="textbox-block" placeholder="www.google.com"></input>
+                                <ul id="list-block"></ul>
+                                <br><br>
+                                <button type="button" id="submitButton" ng-disabled="create_form.$invalid" value="Submit">Submit</button>
+                                
+                                 
+                            </center></p>
+                            
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <script src="popup.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+      
+        <script src="app.js"></script>
+      
+	</body>
+</html>
+

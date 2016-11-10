@@ -1,186 +1,252 @@
-
 /*------Tabspace class ----------*/
 function Tabspace(theName){
     this.name = theName;
     this.linksArray = [];
-    this.add = function(newObject){
-        this.linksArray.push(newObject);
-    };
-    
+    this.blocksArray = [];
 }
 
-Tabspace.prototype = {
-    constructor: Tabspace,
-    
-    displayName:function(){
-        var that = this;
-        var array = chrome.extension.getBackgroundPage().globalArray;
-        var html =  '<button class="individualTS">' + this.name + '</button>';
-      
-        var dynamicHTML = 'Input websites:<br> \
-        <input type="text" id="website"> \
-        <br><br> \
-        <button type="button" class="dynamic" id="submit">Submited</button>';
-        
-        array.push(html);
-        chrome.storage.local.set({ globalArray: array});
-        $('#dynamicInput').append(dynamicHTML);
-        $('#dynamicTable tr').append(html);
-        $(".dynamic").on("click", {arg1: this.name, arg2: this.linksArray}, saveLink);
-       // $(".individualTS").on("click", {arg1: this.name}, displayLinks);
-       setButtonClick();
-        console.log(this.key);
-        console.log(this.name);
-        chrome.storage.local.get(function(result){
-            out = result.globalArray;
-            console.log(out);
-        });
-    }
-}
-
-function saveLink(foo){
-        var substring = "https://";
-        var fullSitename = "";
-        var obj= {};
-        var key = foo.data.arg1;
-        var array = foo.data.arg2;
-        
-        var sitename = document.getElementById("website").value;
-        console.log(sitename);
-    
-        if(sitename.includes(substring) !== true){
-            console.log("No https string");
-            fullSiteName = substring.concat(sitename);
-            console.log(fullSiteName);
-        }else{
-            fullSiteName = sitename;
-            console.log(fullSiteName);
-        }
-        
-        console.log(key);
-        array.push(fullSiteName);
-        obj[key] = array;
-       
-        chrome.storage.local.set(obj);
-        
-}
-
-/*
-function displayLinks(){
-    var key = this.text();
-    console.log(key)
-    chrome.storage.local.get(key,function(result){
-            console.log(key,result);
-            var array = result[key];
-            for(var link in array){
-                var obj = array[link];
-                chrome.tabs.create({active: true, url: obj});
-            }
-        });
-}*/
-
-
-function displayLinks(foo){
-        //var key = foo.data.arg1;
-        var key = foo;
-        console.log(key);
-        chrome.storage.local.get(key,function(result){
-            console.log(key,result);
-            var array = result[key];
-            for(var link in array){
-                var obj = array[link];
-                chrome.tabs.create({active: true, url: obj});
-            }
-        });
-}
-
-function displayButtons(){
-    console.log("Hello from background!");
-    chrome.storage.local.get(function(result){
-        if(result.globalArray){
-            out = result.globalArray;
-            for(var i = 0; i < out.length; i++){
-                var html = out[i];
-                console.log(html);
-                console.log(i);
-                $('#dynamicTable tr').append(html);
-              
-            }
-            
-        }
-    });
-    setTimeout(setButtonClick, 2000);
-    
-}
-
-function setButtonClick(){
-    console.log("Reach here?");
-        $(".individualTS").each(function(){
-            var faz = this;
-            console.log(faz);
-            var fag = this.innerText;
-            console.log(fag);       
-            faz.addEventListener("click", function(){
-                displayLinks(fag);
-            }, false);
-        });
-}
-
-var bttn2 = document.getElementById("createTS");
-if(bttn2){
-bttn2.addEventListener('click', saveTS);
-displayButtons();
-
-}
-
-/*Add on click listener to button
-var bttn = document.getElementById("submit");
-if(bttn){
-bttn.addEventListener('click', saveChanges);
-}*/
-
+/*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
+Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
-    var ts = document.getElementById("tabspace").value;
-    tabspace = new Tabspace(ts);
-    tabspace.displayName();
+    var substring = "https://";
+    var name = document.getElementById("textbox-name").value;
+    tabspace = new Tabspace(name);
+    $("#list-add li").each(function() { 
+        var fullSiteName = "";
+        var sitename = $(this).text();
+        
+        if(sitename.includes(substring) !== true){           
+            fullSiteName = substring.concat(sitename);            
+        }else{
+            fullSiteName = sitename;           
+        }
+        tabspace.linksArray.push(fullSiteName); 
+    });
+    $("#list-block li").each(function() { tabspace.blocksArray.push($(this).text()) });
+
+    chrome.storage.local.get(null, function(result){        
+        var totalObjects = {};
+        totalObjects[tabspace.name] = tabspace;
+        chrome.storage.sync.set(totalObjects);        
+    });
+
+    //Append button to DOM
+    var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+    $('#generateTabs').append(html);  
+    //Set On Click attribute
+    setButtonClick();
 }
 
+/*-Start up  function to load tabspaces from chrome.storage 
+and display them as Buttons on the home page.
+Invokes setButtonClick function afterwards to set On-Click attributes for the generated buttons -*/
+function displayButtons(){
+    chrome.storage.sync.get(null, function(result){
+        console.log("in display button:", result);        
+        for(objects in result){
+            var tabObject = result[objects];
+            console.log("tabObject: " , tabObject);
+            var name = tabObject.name;
+            var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+            $('#generateTabs').append(html);   
+        }
+        
+    });
+    setTimeout(setButtonClick, 1000);
+}
 
-/*On click function to save form inputs*/
-function saveChanges(){
-    var substring = "https://";
-    var fullSitename = "";
+/*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
+Possibly do this async/more efficiently? ----------*/
+function setButtonClick(){
+    $(".individualTS").each(function(){
+        var name = this.innerText;     
+        this.addEventListener("click", function(){
+            displayLinks(name);
+        }, false);
+    });
+}
+
+/*-On-Click function called by tabspace buttons to display links saved in the linkArray attribute-*/
+function displayLinks(name){      
+    var key = name;
+    console.log(key);
+    chrome.storage.sync.get(null,function(result){        
+        console.log(result[key]);
+
+        var urls = result[key].linksArray;
+        console.log(urls);
+        for (url in urls){    
+            var tempUrl = urls[url];  
+            console.log(tempUrl);  
+            chrome.tabs.create({url : tempUrl});                           
+        }        
+    });
+}
+
+//Function to load edit page
+function loadEditPage(){
+    chrome.tabs.create({active: true, url: chrome.extension.getURL('editTS.html')});
+}
+
+////////////////////// debug tools
+var checkStorage = document.getElementById("checkStorage");
+if (checkStorage){
+    checkStorage.addEventListener('click', check_LocalStorage);
+}
+
+function check_LocalStorage(){
+    chrome.storage.sync.get(null, function (Items) {
+        console.log(Items);              
+    });
+}
+//////////////////////// create tabspace from current tabs methods
+
+var newTSbttn = document.getElementById("newTabspaceFromTabs");
+if(newTSbttn){
+newTSbttn.addEventListener('click', save_tabspace);
+}
+
+//check how many tabspaces have been saved and set that number to count
+function getCount_Callback(newCount){
+    count = newCount;
+    console.log("in getCount_callback: " + count);
+}
+
+//returns the number of current tabspaces
+function getCount(callback){
+    count = 1;
+
+    chrome.storage.sync.get(null, function(Items){      
+        for (var obj in Items){             
+            count++;            
+        }
+        callback(count);                        
+    });
+}
+
+//create a new tabspace with the urls of our open tabs
+//save these tabs to storage in tabspaceX format
+function grabTabs_Callback(openTabs){   
+    var tempblacklist = ["twitter.com", "myspace.com"];
+
+    var createdTabspace = new Tabspace("default");
+    createdTabspace.linksArray = openTabs;
+    createdTabspace.blocksArray = tempblacklist;
+
+//
+    //var name = tabObject.name;
+    var html = '<li>' + '<button class="individualTS">' + createdTabspace.name + '</button>' + '</li>';
+    $('#generateTabs').append(html); 
+    var save = {};
+    save["default"] = createdTabspace;
+//
+    //var newButton = document.createElement('button');
+    // newButton.id = 'tabspace' + count;
+    // var keyId = newButton.id.toString();
+    // createdTabspace.name = keyId;
+    // var save = {};
+    // save[keyId] = createdTabspace;
+    // document.getElementsByTagName('body')[0].appendChild(newButton);
+    // newButton.innerHTML = "tabspace " + count;
+
+
+    chrome.storage.sync.set(save, function(){
+        //console.log('createdTabspace saved');
+    });                 
+}
+
+//grab the current open tabs from the focused window.
+function grabTabs(callback){
+    var openTabs = [];
     
-    console.log("This works\n");
-    var ts = document.getElementById("tabspace").value;
-    var sitename = document.getElementById("website").value;
-    console.log(sitename);
-    
-    if(sitename.includes(substring) !== true){
-        console.log("No https string");
-        fullSiteName = substring.concat(sitename);
-        console.log(fullSiteName);
-    }else{
-        fullSiteName = sitename;
-        console.log(fullSiteName);
-    }
-    
-    chrome.storage.local.set({'ts': ts});
-    chrome.storage.local.set({'sitename': fullSiteName});
-   /* var dataObj = {};
-    dataObj[test] = ts;
-    dataObj[test2] = sitename;
-    
-    storage.set(dataObj);*/
-    
-    var site = "";
-    chrome.storage.local.get(function(result){
-        tabspace = result.ts;
-        site = result.sitename;
-        document.getElementById("demo").innerHTML = tabspace;
-        console.log(site);
-        chrome.tabs.create({active: true, url: site});
+    chrome.tabs.query({active: true,lastFocusedWindow: true}, function(returned_tabs){
+
+        console.log("returned_tabs:", returned_tabs);
+        for (var i = 0; i < returned_tabs.length; i++) {
+                openTabs.push(returned_tabs[i].url);                        
+        }   
+        console.log("openTabs in grabTabs:", openTabs);
+        callback(openTabs);                     
     });
     
 }
- 
+
+function save_tabspace(){    
+
+    getCount(getCount_Callback);
+    grabTabs(grabTabs_Callback);
+                        
+}
+
+
+window.onload = function(){
+
+    var editBttn = document.getElementById("editBttn").addEventListener('click', loadEditPage);    
+    
+    //Display saved tabspaces as buttons and set on click attribute
+    //setTimeout(displayButtons, 2000);
+    displayButtons();
+   
+    //Set on click attribute for submit button
+    var submitButton = document.getElementById("submitButton").addEventListener('click', saveTS);;
+    
+    // ADD TABS
+    // Enter key is pressed
+    addValue = document.getElementById("textbox-add");
+    addValue.addEventListener("keyup", function(event){
+        event.preventDefault();
+        if (event.keyCode == 13 && addValue.value != "") {
+            // Add tab url
+            var nodeAdd = document.createElement("li");
+            var textnodeAdd = document.createTextNode(addValue.value);
+            nodeAdd.appendChild(textnodeAdd);
+            document.getElementById("list-add").appendChild(nodeAdd);
+            addValue.value = "";
+        }
+        else {
+            return false;
+        }
+
+
+        // Remove tab url
+        var removeAddTab = document.createElement('input');
+        removeAddTab.setAttribute('type', 'button');
+        removeAddTab.setAttribute("value", "x");
+        removeAddTab.setAttribute("id", "removeButton");
+        removeAddTab.addEventListener('click', function(e) {
+            nodeAdd.parentNode.removeChild(nodeAdd);
+        }, false);
+        nodeAdd.appendChild(removeAddTab);
+    }
+    ) 
+
+    // BLOCK TABS
+    // Enter key is pressed
+    blockValue = document.getElementById("textbox-block");
+    blockValue.addEventListener("keyup", function(event){
+        event.preventDefault();
+        if (event.keyCode == 13 && blockValue.value != "") {
+            // Add tab url
+            var nodeBlock = document.createElement("li");
+            var textnodeBlock = document.createTextNode(blockValue.value);
+            nodeBlock.appendChild(textnodeBlock);
+            document.getElementById("list-block").appendChild(nodeBlock);
+            blockValue.value = "";
+        }
+        else {
+            return false;
+        }
+
+
+        // Remove tab url
+        var removeBlockTab = document.createElement('input');
+        removeBlockTab.setAttribute('type', 'button');
+        removeBlockTab.setAttribute("value", "x");
+        removeBlockTab.setAttribute("id", "removeButton");
+        removeBlockTab.addEventListener('click', function(e) {
+            nodeBlock.parentNode.removeChild(nodeBlock);
+        }, false);
+        nodeBlock.appendChild(removeBlockTab);
+    }
+    ) 
+};
