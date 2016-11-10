@@ -24,7 +24,7 @@ function saveTS(){
     });
     $("#list-block li").each(function() { tabspace.blocksArray.push($(this).text()) });
 
-    chrome.storage.local.get(null, function(result){        
+    chrome.storage.local.get(null, function(result){     //result always undefined, not used    
         var totalObjects = {};
         totalObjects[tabspace.name] = tabspace;
         chrome.storage.sync.set(totalObjects);        
@@ -129,30 +129,19 @@ function getCount(callback){
 function grabTabs_Callback(openTabs){   
     var tempblacklist = ["twitter.com", "myspace.com"];
 
-    var createdTabspace = new Tabspace("default");
-    createdTabspace.linksArray = ["https://www.reddit.com"];
-    createdTabspace.blocksArray = tempblacklist;
+    var name = prompt("Enter a Name for the Tabspace:", "my tabspace");    
 
-//
-    //var name = tabObject.name;
+    var createdTabspace = new Tabspace(name);
+    createdTabspace.linksArray = openTabs;
+    createdTabspace.blocksArray = tempblacklist;
+    
     var html = '<li>' + '<button class="individualTS">' + createdTabspace.name + '</button>' + '</li>';
     $('#generateTabs').append(html); 
     var save = {};
-    save["default"] = createdTabspace;
-//
-    //var newButton = document.createElement('button');
-    // newButton.id = 'tabspace' + count;
-    // var keyId = newButton.id.toString();
-    // createdTabspace.name = keyId;
-    // var save = {};
-    // save[keyId] = createdTabspace;
-    // document.getElementsByTagName('body')[0].appendChild(newButton);
-    // newButton.innerHTML = "tabspace " + count;
+    save[name] = createdTabspace;
 
-
-    chrome.storage.sync.set(save, function(){
-        //console.log('createdTabspace saved');
-    });                 
+    chrome.storage.sync.set(save);     
+    setButtonClick();            
 }
 
 //grab the current open tabs from the focused window.
