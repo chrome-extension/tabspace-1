@@ -1,3 +1,6 @@
+/*
+    Code behind the dropdown menu for adding/removing tabspaces goes here
+*/
 
 //need to put the tabspace objects into an array, i suppose. Then use whatever storage
 //thing he's using to make sure it stores

@@ -1,0 +1,74 @@
+.nav-tabs > li{
+    float: none;
+    display: inline-block;
+    }
+
+.nav-tabs{
+    text-align: center;
+}
+
+.full{
+    position: relative;
+    width: 400px;
+    height: 600px;
+    overflow: auto;
+}
+
+.top{
+    height: 100px
+}
+
+.navigation ul{
+    position: static;
+    bottom: 500px;
+    width: 100%;
+}
+
+.tab-content p, ul{
+    position: static;
+    float: left;
+    float: right;
+    bottom: 0px;
+    width: 100%;
+}
+
+input[type=text] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+    outline: none;
+    text-align: center;
+    padding: 2px 50px;
+}
+
+body { 
+    font-family: 'Montserrat', sans-serif; 
+    } 
+
+p   { 
+    font-size: 16px; 
+    }
+
+#mylogo {
+    width:20px; 
+    height:20px; 
+}
+
+
+div.top-left{
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+div.top-right{
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+div.center{
+    position: relative;
+    top: 50px;
+
+}
