@@ -130,7 +130,7 @@ function grabTabs_Callback(openTabs){
     var tempblacklist = ["twitter.com", "myspace.com"];
 
     var createdTabspace = new Tabspace("default");
-    createdTabspace.linksArray = openTabs;
+    createdTabspace.linksArray = ["https://www.reddit.com"];
     createdTabspace.blocksArray = tempblacklist;
 
 //
@@ -159,7 +159,7 @@ function grabTabs_Callback(openTabs){
 function grabTabs(callback){
     var openTabs = [];
     
-    chrome.tabs.query({active: true,lastFocusedWindow: true}, function(returned_tabs){
+    chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
 
         console.log("returned_tabs:", returned_tabs);
         for (var i = 0; i < returned_tabs.length; i++) {

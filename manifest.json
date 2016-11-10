@@ -3,7 +3,8 @@
   "name": "tabspace",
   "version": "0.1",
   "permissions": [
-          "storage"
+          "storage",
+          "tabs"
   ],
   "browser_action": {
     "default_icon": "logo.png",
