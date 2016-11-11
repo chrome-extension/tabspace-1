@@ -22,6 +22,7 @@ window.onload = function(){
         var removeAddTab = document.createElement('input');
         removeAddTab.setAttribute('type', 'button');
         removeAddTab.setAttribute("value", "x");
+        removeAddTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeAddTab.setAttribute("id", "removeButton");
         removeAddTab.addEventListener('click', function(e) {
             nodeAdd.parentNode.removeChild(nodeAdd);
@@ -52,6 +53,7 @@ window.onload = function(){
         var removeBlockTab = document.createElement('input');
         removeBlockTab.setAttribute('type', 'button');
         removeBlockTab.setAttribute("value", "x");
+        removeBlockTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeBlockTab.setAttribute("id", "removeButton");
         removeBlockTab.addEventListener('click', function(e) {
             nodeBlock.parentNode.removeChild(nodeBlock);

@@ -14,11 +14,8 @@
 .nav-pills > li{
     float: none;
     display: inline-block;
-    }
-
-.nav-pills{
     text-align: center;
-}
+    }
 
 .navigation ul{
     position: static;
@@ -27,9 +24,7 @@
 }
 
 .tab-content p, ul{
-    position: static;
-    float: left;
-    float: right;
+    list-style-type: none;
     bottom: 0px;
     width: 100%;
 }
@@ -43,13 +38,30 @@ input[type=text] {
     padding: 2px 50px;
 }
 
+.btn-circle{
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-left: 50px;
+    float: right;
+}
+
+.list li{
+    text-align: left;
+    padding: 5px 0px 0px 0px;
+    width: 75%;
+}
+
+ul li:hover {
+}
+
 body { 
     font-family: 'Montserrat', sans-serif; 
     width: 400px;
     height: 600px;
+    font-size: 16px; 
     } 
 
 p   { 
-    font-size: 16px; 
     }
 
