@@ -11,6 +11,8 @@ function saveTS(){
     var substring = "https://";
     var name = document.getElementById("textbox-name").value;
     tabspace = new Tabspace(name);
+
+    // Add links to linksArray
     $("#list-add li").each(function() { 
         var fullSiteName = "";
         var sitename = $(this).text();
@@ -25,17 +27,24 @@ function saveTS(){
         }
         tabspace.linksArray.push(fullSiteName); 
     });
-    $("#list-block li").each(function() { tabspace.blocksArray.push($(this).text()) });
+
+    // Add blocks to blocksArray
+    $("#list-block li").each(function() {
+        tabspace.blocksArray.push($(this).text())
+    });
+
+    // Add to chrome.storage
     chrome.storage.local.get(null, function(result){
         var totalObjects = result.tabspaces;
-        totalObjects.push(tabspace);
+        totalObjects[tabspace.name] = tabspace;
         //console.log(totalObjects);
-        chrome.storage.local.set({ tabspaces: totalObjects});
-        
+        chrome.storage.local.set({tabspaces: totalObjects});
     });
+
     //Append button to DOM
     var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
     $('#generateTabs').append(html);  
+
     //Set On Click attribute
     setButtonClick();
 }
@@ -45,7 +54,7 @@ and display them as Buttons on the home page.
 Invokes setButtonClick function afterwards to set On-Click attributes for the generated buttons -*/
 function displayButtons(){
     chrome.storage.local.get(null, function(result){
-        console.log(result.tabspaces);
+        console.log(result);
         for(objects in result.tabspaces){
             var tabObject = result.tabspaces[objects];
             //console.log(tabObject);
@@ -70,18 +79,21 @@ function setButtonClick(){
 }
 
 /*-On-Click function called by tabspace buttons to display links saved in the linkArray attribute-*/
-function displayLinks(name){      
-    var key = name;
-    console.log(key);
-    chrome.storage.local.get(null,function(result){
-        console.log(result.tabspaces.name);
-        for(objects in result.tabspaces){
-            var tabObject = result.tabspaces[objects];
-            if(tabObject.name == key){
-                var array = tabObject.linksArray;
-                for(link in array){
-                    var obj = array[link];
-                    chrome.tabs.create({active: true, url: obj});
+function displayLinks(tsName){      
+    console.log(tsName);
+
+    chrome.storage.local.get(null,function(result) {
+        console.log(result);
+
+        for (tabspace in result.tabspaces) {
+            var tabObject = result.tabspaces[tabspace];
+
+            if(tabObject.name == tsName){
+                // Change global var currentTabspace
+                chrome.storage.local.set({currentTabspace : tsName});
+                var links = tabObject.linksArray;
+                for (link in links) {
+                    chrome.tabs.create({active: true, url: links[link]});
                 }
             }
         }
@@ -95,19 +107,27 @@ function loadEditPage(){
     chrome.tabs.create({active: true, url: chrome.extension.getURL('editTS.html')});
 }
 
+// Clears chrome.storage and the popup form
+function clearAll() {
+    chrome.storage.local.clear(function () {
+        displayButtons();
+    });
+}
+
 
 window.onload = function(){
     //Get global array variable and make initial query to see if storage object is empty. If empty, initialize object
     var totalObjects = chrome.extension.getBackgroundPage().totalObjects;
-    chrome.storage.local.get(null, function(result){
-        if(result.tabspaces == null){
-            chrome.storage.local.set({ tabspaces: totalObjects});
-        }else{
-        console.log(result.tabspaces);
+    chrome.storage.local.get(null, function(result) {
+        if (result.tabspaces == null){
+            chrome.storage.local.set({tabspaces: totalObjects});
+        } else {
+            console.log(result.tabspaces);
         }
     });
     
     var editBttn = document.getElementById("editBttn").addEventListener('click', loadEditPage);
+    var clearBttn = document.getElementById("clearBttn").addEventListener('click', clearAll);
     
     
     //Display saved tabspaces as buttons and set on click attribute

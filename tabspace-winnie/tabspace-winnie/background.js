@@ -1,4 +1,4 @@
 /*--- Global Variables ---*/
-var totalObjects = []; 
+var totalObjects = {}; 
 
-
+var currentTabspace = null;
