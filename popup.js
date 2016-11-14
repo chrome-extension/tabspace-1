@@ -66,20 +66,25 @@ function setButtonClick(){
     });
 }
 
-/*-On-Click function called by tabspace buttons to display links saved in the linkArray attribute-*/
+/*-On-Click function called by tabspace buttons to display tabs saved in the linkArray attribute-*/
 function displayLinks(name){      
     var key = name;
-    console.log(key);
-    chrome.storage.sync.get(null,function(result){        
-        console.log(result[key]);
 
-        var urls = result[key].linksArray;
-        console.log(urls);
+    chrome.tabs.query({}, function(tabs){
+        for (var i = 0; i < tabs.length; i++){
+            chrome.tabs.remove(tabs[i].id);
+        }
+    });
+
+    chrome.storage.sync.get(null,function(result){                
+
+        var urls = result[key].linksArray;        
         for (url in urls){    
             var tempUrl = urls[url];  
             console.log(tempUrl);  
             chrome.tabs.create({url : tempUrl});                           
-        }        
+        }
+
     });
 }
 
@@ -162,7 +167,7 @@ function grabTabs(callback){
 
 function save_tabspace(){    
 
-    getCount(getCount_Callback);
+    //getCount(getCount_Callback);
     grabTabs(grabTabs_Callback);
                         
 }
@@ -170,15 +175,12 @@ function save_tabspace(){
 
 window.onload = function(){
 
-    var editBttn = document.getElementById("editBttn").addEventListener('click', loadEditPage);    
-    
-    //Display saved tabspaces as buttons and set on click attribute
-    //setTimeout(displayButtons, 2000);
     displayButtons();
    
-    //Set on click attribute for submit button
+    //Set on click attribute for submit,edit buttons
     var submitButton = document.getElementById("submitButton").addEventListener('click', saveTS);;
-    
+    var editBttn = document.getElementById("editBttn").addEventListener('click', loadEditPage);    
+
     // ADD TABS
     // Enter key is pressed
     addValue = document.getElementById("textbox-add");
