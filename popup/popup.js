@@ -1,6 +1,7 @@
 /*
     Code behind the dropdown menu for adding/removing tabspaces goes here
 */
+<<<<<<< HEAD:popup/popup.js
 
 //need to put the tabspace objects into an array, i suppose. Then use whatever storage
 //thing he's using to make sure it stores
@@ -8,6 +9,8 @@
 //var tabspace_array = [];
 //when they make a new tabspace, add it to the tabspace array using 
 //tabspace_array.push(new_tabspace);
+=======
+>>>>>>> master:popup/popup.js
 
 /*------Tabspace class ----------*/
 function Tabspace(theName){
