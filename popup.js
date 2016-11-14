@@ -71,20 +71,26 @@ function displayLinks(name){
     var key = name;
 
     chrome.tabs.query({}, function(tabs){
-        for (var i = 0; i < tabs.length; i++){
-            chrome.tabs.remove(tabs[i].id);
-        }
-    });
+        var tabs_to_close = [];
 
-    chrome.storage.sync.get(null,function(result){                
+        for (var i = 0; i < tabs.length; i++){            
+            tabs_to_close.push(tabs[i]);
+        }        
+        
+        chrome.storage.sync.get(null,function(result){                        
+            var urls = result[key].linksArray;  
 
-        var urls = result[key].linksArray;        
-        for (url in urls){    
-            var tempUrl = urls[url];  
-            console.log(tempUrl);  
-            chrome.tabs.create({url : tempUrl});                           
-        }
+            for (url in urls){    
+                var tempUrl = urls[url];                  
 
+                for(var j = 0; j < tabs_to_close.length; j++){                    
+                    chrome.tabs.remove(tabs_to_close[j].id);
+                }
+                chrome.tabs.create({url : tempUrl});                           
+            }
+          
+            chrome.storage.local.set({currentTabspace : name});
+        });
     });
 }
 
@@ -101,7 +107,11 @@ if (checkStorage){
 
 function check_LocalStorage(){
     chrome.storage.sync.get(null, function (Items) {
-        console.log(Items);              
+        console.log("sync items: ", Items);              
+    });
+
+    chrome.storage.local.get(null, function(objects){
+        console.log("local objects:", objects);
     });
 }
 //////////////////////// create tabspace from current tabs methods

@@ -1,4 +1,1 @@
-/*--- Global Variables ---*/
-var totalObjects = []; 
-
 
