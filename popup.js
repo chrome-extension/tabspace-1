@@ -144,8 +144,8 @@ function getCount(callback){
 function grabTabs_Callback(openTabs){   
     var tempblacklist = ["twitter.com", "myspace.com"];
 
-    var name = prompt("Enter a Name for the Tabspace:", "my tabspace");    
-
+    //var name = prompt("Enter a Name for the Tabspace:", "my tabspace");    
+    var name = "testing";
     var createdTabspace = new Tabspace(name);
     createdTabspace.linksArray = openTabs;
     createdTabspace.blocksArray = tempblacklist;
