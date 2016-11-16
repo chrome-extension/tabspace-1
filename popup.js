@@ -48,8 +48,7 @@ function displayButtons(){
             var tabObject = result[objects];
             console.log("tabObject: " , tabObject);
             var name = tabObject.name;
-            var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';
-            //var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+            var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';            
             $('#generateTabs').append(html);   
         }
         
@@ -60,9 +59,7 @@ function displayButtons(){
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
 Possibly do this async/more efficiently? ----------*/
 function setButtonClick(){
-    $(".individualTS").each(function(){
-        console.log("title: ", this.title);
-        //var name = this.innerText;     \
+    $(".individualTS").each(function(){            
         var name = this.title
         this.addEventListener("click", function(){
             displayLinks(name);
@@ -88,17 +85,22 @@ function displayLinks(name){
                                       
                 for (url in urls){    
                     var tempUrl = urls[url];                  
-
-                    for(var j = 0; j < tabs_to_close.length; j++){                    
-                       // chrome.tabs.remove(tabs_to_close[j].id);
-                    }
+                    
                     chrome.tabs.create({url : tempUrl});                           
                 }
               
                 chrome.storage.local.set({currentTabspace : name});
             }
         });
+        setTimeout(closeTabs(tabs_to_close), 1000);
     });
+}
+
+function closeTabs(tabs_to_close){
+    
+    for(var j = 0; j < tabs_to_close.length; j++){                    
+       chrome.tabs.remove(tabs_to_close[j].id);
+    }
 }
 
 //Function to load edit page
@@ -195,7 +197,6 @@ function save_tabspace(){
     grabTabs(grabTabs_Callback);
                         
 }
-
 
 window.onload = function(){
 
