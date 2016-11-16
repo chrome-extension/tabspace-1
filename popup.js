@@ -31,7 +31,8 @@ function saveTS(){
     });
 
     //Append button to DOM
-    var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+    var html = '<div class="col-xs-4">' + '<input type="image" src="1.jpg"/>' + '</div>';
+    //var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
     $('#generateTabs').append(html);  
     //Set On Click attribute
     setButtonClick();
@@ -47,7 +48,8 @@ function displayButtons(){
             var tabObject = result[objects];
             console.log("tabObject: " , tabObject);
             var name = tabObject.name;
-            var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+            var html = '<div class="col-xs-4">' + '<input type="image" src="1.jpg"/>' + '</div>';
+            //var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
             $('#generateTabs').append(html);   
         }
         
@@ -58,7 +60,7 @@ function displayButtons(){
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
 Possibly do this async/more efficiently? ----------*/
 function setButtonClick(){
-    $(".individualTS").each(function(){
+    $(".col-xs-4").each(function(){
         var name = this.innerText;     
         this.addEventListener("click", function(){
             displayLinks(name);
@@ -150,7 +152,8 @@ function grabTabs_Callback(openTabs){
     createdTabspace.linksArray = openTabs;
     createdTabspace.blocksArray = tempblacklist;
     
-    var html = '<li>' + '<button class="individualTS">' + createdTabspace.name + '</button>' + '</li>';
+    var html = '<div class="col-xs-4">' + '<input type="image" src="1.jpg"/>' + '</div>';
+    //var html = '<li>' + '<button class="individualTS">' + createdTabspace.name + '</button>' + '</li>';
     $('#generateTabs').append(html); 
     var save = {};
     save[name] = createdTabspace;
@@ -188,8 +191,7 @@ window.onload = function(){
     displayButtons();
    
     //Set on click attribute for submit,edit buttons
-    var submitButton = document.getElementById("submitButton").addEventListener('click', saveTS);;
-    var editBttn = document.getElementById("editBttn").addEventListener('click', loadEditPage);    
+    var submitButton = document.getElementById("changetabbutton").addEventListener('click', saveTS);;
 
     // ADD TABS
     // Enter key is pressed

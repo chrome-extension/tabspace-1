@@ -1,91 +1,92 @@
 <!DOCTYPE html>
-<html ng-csp="no-unsafe-eval" ng-app="myApp" >
+<html>
 
-	<head>
+    <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>tabspace Menu</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
-        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-         
-        <link rel="stylesheet" href="css/angular-csp.css" />
-	</head>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet'            type='text/css'>
+    </head>
 
     <body> 
-        <nav>
-            <div class="container" >
-
-                <!-- FULL -->
-                <div class="full">
-
-                    <!-- TOP -->
-                    <div class="top">
-                    </div>
-
+        <nav class = "navbar navbar-default" role = "navigation">
+            <div class="container">
+                <div class="row">
                     <!-- NAVIGATION -->
                     <div class="navigation">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-stacked col-xs-4" id="mytabs">
+                            <br><br><br>
                             <li class="active">
-                                <a href="#home" data-toggle="tab">home</a>
+                                <a href="#home" data-toggle="tab">Home</a>
                             </li>
                             <li>
-                                <a href="#create" data-toggle="tab">create</a>
+                                <a href="#create" data-toggle="tab">Create</a>
                             </li>
+                            <br><br><br>
+                            <center><img src="logo-circle-2.png"></center>
                         </ul>
                     </div>
 
                     <!-- TAB CONTENT -->
-                    <div class = "tab-content"> 
-                        <button type="button" id="checkStorage">check storage</button><br><br>
-                        <button type="button" id="newTabspaceFromTabs"> Create Tabspace From Current Tabs </button><br>
+                    <div class="tab-content col-xs-8">
                         <div class="tab-pane fade in active" id="home">
-                            <p><br><br>Tabspaces</p>
-                            <ul id="generateTabs"></ul>
-                            <br>
-                            <div id="Edit">
-                                <button type="button" id="editBttn">Edit</button>
-                            </div> 
-                           
+                            <div class="row" id="generateTabs">
+                                <br>
+                                <a href= "#" id="newTabspaceFromTabs">Save current window as tabspace</a>
+                                <br><br><br><br>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="create">
-                            <form name="create_form" ng-submit="submitForm($event)" novalidate ng-controller="createController">
-                            <center><p><br><br>
-                                tabspace name <br><br>
-                                <span ng-show="create_form.$invalid && create_form.$dirty " >Name is required.</span>
-                                <input type="text" id="textbox-name" placeholder="School, Project X" ng-model="name" required> <br><br>
-                               
+                            <center><p>
+                                <br>
+                                <p>Create your tabspace</p>
+                                <br>
+                                title <br><br>
+                                <input type="text" placeholder="School, Project X"> <br><br>
+
                                 add tabs <br><br>
-                                
-                                </form>
-                                <input type="text" id="textbox-add" placeholder="www.google.com" ng-model="add" ng-minlength="4"></input><br><br>
-                                <ul id="list-add"></ul>
-                                    
-                                block tabs <br><br>
-                                
-                                <input type="text" id="textbox-block" placeholder="www.google.com"></input>
-                                <ul id="list-block"></ul>
+                                <input type="text" id="textbox-add" placeholder="www.google.com"></input>
                                 <br><br>
-                                <button type="button" id="submitButton" ng-disabled="create_form.$invalid" value="Submit">Submit</button>
-                                
-                                 
+                                <ul id="list-add" class="list"></ul>
+
+                                block tabs <br><br>
+                                <input type="text" id="textbox-block" placeholder="www.google.com"></input>
+                                <br>
+                                <ul id="list-block" class="list"></ul>
+                                <br><br>
+                                <button type="button" id="changetabbutton" class="btn btn-primary">Submit</button>
+
                             </center></p>
-                            
-                           
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
         <script src="popup.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-      
-        <script src="app.js"></script>
-      
-	</body>
+    </body>
 </html>
 
