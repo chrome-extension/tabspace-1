@@ -91,8 +91,9 @@ function displayLinks(name){
               
                 chrome.storage.local.set({currentTabspace : name});
             }
+            setTimeout(closeTabs(tabs_to_close), 1000);
         });
-        setTimeout(closeTabs(tabs_to_close), 1000);
+        
     });
 }
 
