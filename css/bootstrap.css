@@ -1648,6 +1648,12 @@ pre code {
 .col-xs-4 {
   width: 33.33333333%;
 }
+/* adding individualTS */
+.col-xs-4 .individualTS {
+  width: 33.33333333%
+}
+
+
 .col-xs-3 {
   width: 25%;
 }

@@ -31,7 +31,8 @@ function saveTS(){
     });
 
     //Append button to DOM
-    var html = '<div class="col-xs-4">' + '<input type="image" src="1.jpg"/>' + '</div>';
+    var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';
+    //var html = '<div class="col-xs-4 individualTS" title="">' + '<input type="image" src="1.jpg"/>' + '</div>';    
     //var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
     $('#generateTabs').append(html);  
     //Set On Click attribute
@@ -48,7 +49,7 @@ function displayButtons(){
             var tabObject = result[objects];
             console.log("tabObject: " , tabObject);
             var name = tabObject.name;
-            var html = '<div class="col-xs-4">' + '<input type="image" src="1.jpg"/>' + '</div>';
+            var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';
             //var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
             $('#generateTabs').append(html);   
         }
@@ -60,8 +61,10 @@ function displayButtons(){
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
 Possibly do this async/more efficiently? ----------*/
 function setButtonClick(){
-    $(".col-xs-4").each(function(){
-        var name = this.innerText;     
+    $(".individualTS").each(function(){
+        console.log("title: ", this.title);
+        //var name = this.innerText;     \
+        var name = this.title
         this.addEventListener("click", function(){
             displayLinks(name);
         }, false);
@@ -79,19 +82,22 @@ function displayLinks(name){
             tabs_to_close.push(tabs[i]);
         }        
         
-        chrome.storage.sync.get(null,function(result){                        
-            var urls = result[key].linksArray;  
+        chrome.storage.sync.get(null,function(result){
+            console.log("result is: ", result);       
+            if (result){
+                var urls = result[key].linksArray;      
+                                      
+                for (url in urls){    
+                    var tempUrl = urls[url];                  
 
-            for (url in urls){    
-                var tempUrl = urls[url];                  
-
-                for(var j = 0; j < tabs_to_close.length; j++){                    
-                    chrome.tabs.remove(tabs_to_close[j].id);
+                    for(var j = 0; j < tabs_to_close.length; j++){                    
+                       // chrome.tabs.remove(tabs_to_close[j].id);
+                    }
+                    chrome.tabs.create({url : tempUrl});                           
                 }
-                chrome.tabs.create({url : tempUrl});                           
+              
+                chrome.storage.local.set({currentTabspace : name});
             }
-          
-            chrome.storage.local.set({currentTabspace : name});
         });
     });
 }
@@ -152,7 +158,7 @@ function grabTabs_Callback(openTabs){
     createdTabspace.linksArray = openTabs;
     createdTabspace.blocksArray = tempblacklist;
     
-    var html = '<div class="col-xs-4">' + '<input type="image" src="1.jpg"/>' + '</div>';
+    var html = '<div class="col-xs-4 individualTS">' + '<input type="image" src="1.jpg"/>' + '</div>';
     //var html = '<li>' + '<button class="individualTS">' + createdTabspace.name + '</button>' + '</li>';
     $('#generateTabs').append(html); 
     var save = {};
