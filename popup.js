@@ -28,8 +28,7 @@ window.onload = function(){
             nodeAdd.parentNode.removeChild(nodeAdd);
         }, false);
         nodeAdd.appendChild(removeAddTab);
-    }
-    ) 
+    }) 
 
     // BLOCK TABS
     // Enter key is pressed
@@ -59,6 +58,11 @@ window.onload = function(){
             nodeBlock.parentNode.removeChild(nodeBlock);
         }, false);
         nodeBlock.appendChild(removeBlockTab);
-    }
-    ) 
+    }) 
+
+    // Allow "Submit" button to return to home
+    $('#changetabbutton').click(function(event){
+        event.preventDefault();
+        $('#mytabs a[href="#home"]').tab('show');
+    })
 };

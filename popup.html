@@ -12,58 +12,74 @@
 	</head>
 
     <body> 
-        <nav>
+        <nav class = "navbar navbar-default" role = "navigation">
             <div class="container">
-
-                <!-- TOP -->
-                <div class="top">
-                    <img src="logo-circle.png">
-                </div>
-
-                <!-- NAVIGATION -->
-                <div class="navigation">
-                    <ul class="nav nav-pills">
-                        <li class="active">
-                            <a href="#home" data-toggle="tab">home</a>
-                        </li>
-                        <li>
-                            <a href="#create" data-toggle="tab">create</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- TAB CONTENT -->
-                <div class = "tab-content">
-                    <div class="tab-pane fade in active" id="home">
-                        <div class="row">
-                            <br><br><br><br>
-                            <div class="col-xs-4">.col-md-4</div>
-                            <div class="col-xs-4">.col-md-4</div>
-                            <div class="col-xs-4">.col-md-4</div>
-                            <div class="col-xs-4">.col-md-4</div>
-                            <div class="col-xs-4">.col-md-4</div>
-                            <div class="col-xs-4">.col-md-4</div>
-                        </div>
+                <div class="row">
+                    <!-- NAVIGATION -->
+                    <div class="navigation">
+                        <ul class="nav nav-stacked col-xs-4" id="mytabs">
+                            <br><br><br>
+                            <li class="active">
+                                <a href="#home" data-toggle="tab">Home</a>
+                            </li>
+                            <li>
+                                <a href="#create" data-toggle="tab">Create</a>
+                            </li>
+                            <br><br><br>
+                            <center><img src="logo-circle-2.png"></center>
+                        </ul>
                     </div>
 
-                    <div class="tab-pane fade" id="create">
-                        <center><p><br><br>
-                            tabspace name <br><br>
-                            <input type="text" placeholder="School, Project X"> <br><br>
+                    <!-- TAB CONTENT -->
+                    <div class="tab-content col-xs-8">
+                        <div class="tab-pane fade in active" id="home">
+                            <div class="row">
+                                <br>
+                                <a href= "#" id="links">Save current window as tabspace</a>
+                                <br><br><br><br>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="image" id="tab-images" src="1.jpg"/>
+                                </div>
+                            </div>
+                        </div>
 
-                            add tabs <br><br>
-                            <input type="text" id="textbox-add" placeholder="www.google.com"></input>
-                            <br>
-                            <ul id="list-add" class="list"></ul>
+                        <div class="tab-pane fade" id="create">
+                            <center><p>
+                                <br>
+                                <p>Create your tabspace</p>
+                                <br>
+                                title <br><br>
+                                <input type="text" placeholder="School, Project X"> <br><br>
 
-                            block tabs <br><br>
-                            <input type="text" id="textbox-block" placeholder="www.google.com"></input>
-                            <br>
-                            <ul id="list-block" class="list"></ul>
-                            <br><br>
-                            <input type="submit" value="Submit">
+                                add tabs <br><br>
+                                <input type="text" id="textbox-add" placeholder="www.google.com"></input>
+                                <br><br>
+                                <ul id="list-add" class="list"></ul>
 
-                        </center></p>
+                                block tabs <br><br>
+                                <input type="text" id="textbox-block" placeholder="www.google.com"></input>
+                                <br>
+                                <ul id="list-block" class="list"></ul>
+                                <br><br>
+                                <button type="button" id="changetabbutton" class="btn btn-primary">Submit</button>
+
+                            </center></p>
+                        </div>
                     </div>
                 </div>
             </div>
