@@ -32,8 +32,7 @@ function saveTS(){
 
     //Append button to DOM
     var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';
-    //var html = '<div class="col-xs-4 individualTS" title="">' + '<input type="image" src="1.jpg"/>' + '</div>';    
-    //var html = '<li>' + '<button class="individualTS">' + name + '</button>' + '</li>';
+    
     $('#generateTabs').append(html);  
     //Set On Click attribute
     setButtonClick();
@@ -125,8 +124,10 @@ function check_LocalStorage(){
 //////////////////////// create tabspace from current tabs methods
 
 var newTSbttn = document.getElementById("newTabspaceFromTabs");
-if(newTSbttn){
+var newTSbttn2 = document.getElementById("newTabspaceFromTabs2");
+if(newTSbttn && newTSbttn2){
 newTSbttn.addEventListener('click', save_tabspace);
+newTSbttn2.addEventListener('click', save_tabspace);
 }
 
 //check how many tabspaces have been saved and set that number to count
@@ -152,14 +153,18 @@ function getCount(callback){
 function grabTabs_Callback(openTabs){   
     var tempblacklist = ["twitter.com", "myspace.com"];
 
-    //var name = prompt("Enter a Name for the Tabspace:", "my tabspace");    
-    var name = "testing";
+    //var name = prompt("Enter a Name for the Tabspace:", "my tabspace");
+    var name = document.getElementById("textbox-name").value;        
+    if (name == ""){
+        name = "default";
+    }
+
     var createdTabspace = new Tabspace(name);
     createdTabspace.linksArray = openTabs;
     createdTabspace.blocksArray = tempblacklist;
-    
-    var html = '<div class="col-xs-4 individualTS">' + '<input type="image" src="1.jpg"/>' + '</div>';
-    //var html = '<li>' + '<button class="individualTS">' + createdTabspace.name + '</button>' + '</li>';
+
+
+    var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';
     $('#generateTabs').append(html); 
     var save = {};
     save[name] = createdTabspace;
@@ -170,10 +175,10 @@ function grabTabs_Callback(openTabs){
 
 //grab the current open tabs from the focused window.
 function grabTabs(callback){
-    var openTabs = [];
+    // var openTabs = [];
     
     chrome.tabs.query({lastFocusedWindow: true}, function(returned_tabs){
-
+        var openTabs = [];
         console.log("returned_tabs:", returned_tabs);
         for (var i = 0; i < returned_tabs.length; i++) {
                 openTabs.push(returned_tabs[i].url);                        
