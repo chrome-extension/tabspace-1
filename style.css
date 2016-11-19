@@ -98,6 +98,18 @@ input:focus:-moz-placeholder { color:transparent; }
     height: 60px;
 }
 
+#question-mark {
+    color: #000000;
+    font-size: 0.75em;
+}
+
+.popover{
+    width: 100px;
+}
+.popover-content{
+    font-size: 11px;
+}
+
 body { 
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
     font-size: 18px; 
