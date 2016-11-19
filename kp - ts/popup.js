@@ -29,11 +29,10 @@ function saveTS(){
     //     totalObjects[tabspace.name] = tabspace;
     //     chrome.storage.sync.set(totalObjects);        
     // });
-    
+
     var totalObjects = {};
     totalObjects[tabspace.name] = tabspace;
-    chrome.storage.sync.set(totalObjects);    
-
+    chrome.storage.sync.set(totalObjects);        
     //Append button to DOM
     var html = buildButton(name);
     
@@ -135,10 +134,8 @@ function check_LocalStorage(){
 //////////////////////// create tabspace from current tabs methods
 
 var newTSbttn = document.getElementById("newTabspaceFromTabs");
-var newTSbttn2 = document.getElementById("newTabspaceFromTabs2");
-if(newTSbttn && newTSbttn2){
+if(newTSbttn){
 newTSbttn.addEventListener('click', save_tabspace);
-newTSbttn2.addEventListener('click', save_tabspace);
 }
 
 //check how many tabspaces have been saved and set that number to count
@@ -162,7 +159,7 @@ function getCount(callback){
 //create a new tabspace with the urls of our open tabs
 //save these tabs to storage in tabspaceX format
 function grabTabs_Callback(openTabs){   
-    var tempblacklist = ["twitter.com", "myspace.com"];
+    var tempblacklist = ["myspace.com"];
 
     //var name = prompt("Enter a Name for the Tabspace:", "my tabspace");
     var name = document.getElementById("textbox-name").value;        
