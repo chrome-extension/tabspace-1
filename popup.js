@@ -57,7 +57,7 @@ function displayButtons(){
 }
 
 function buildButton(name){
-     return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="1.jpg"/>' + '</div>' + name;            
+     return '<div class="col-xs-6 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="1.jpg"/>' + '</div>';            
 }
 
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
@@ -269,6 +269,12 @@ window.onload = function(){
         nodeBlock.appendChild(removeBlockTab);
     }
     ) 
+
+          // Allow "Submit" button to return to home
+    $('#changetabbutton').click(function(event){
+        event.preventDefault();
+        $('#mytabs a[href="#home"]').tab('show');
+    })
 
     $(document).ready(function(){
         $('[data-toggle="popover"]').popover();   
