@@ -57,7 +57,7 @@ function displayButtons(){
 }
 
 function buildButton(name){
-     return '<div class="col-xs-6 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="1.jpg"/>' + '</div>';            
+     return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="1.jpg"/>' + '<p>' + name + '</p>' + '</div>';            
 }
 
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
