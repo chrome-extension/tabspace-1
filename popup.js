@@ -31,7 +31,7 @@ function saveTS(){
     });
 
     //Append button to DOM
-    var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';
+    var html = buildButton(name);
     
     $('#generateTabs').append(html);  
     //Set On Click attribute
@@ -48,12 +48,16 @@ function displayButtons(){
             var tabObject = result[objects];
             console.log("tabObject: " , tabObject);
             var name = tabObject.name;
-            var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';            
+            var html = buildButton(name);
             $('#generateTabs').append(html);   
         }
         
     });
     setTimeout(setButtonClick, 1000);
+}
+
+function buildButton(name){
+     return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="1.jpg"/>' + '</div>' + name;            
 }
 
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
@@ -159,7 +163,7 @@ function grabTabs_Callback(openTabs){
     //var name = prompt("Enter a Name for the Tabspace:", "my tabspace");
     var name = document.getElementById("textbox-name").value;        
     if (name == ""){
-        name = "default";
+        name = "tabspace" + count;
     }
 
     var createdTabspace = new Tabspace(name);
@@ -167,7 +171,7 @@ function grabTabs_Callback(openTabs){
     createdTabspace.blocksArray = tempblacklist;
 
 
-    var html = '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" src="1.jpg"/>' + '</div>';
+    var html = buildButton(name);
     $('#generateTabs').append(html); 
     var save = {};
     save[name] = createdTabspace;
@@ -194,7 +198,7 @@ function grabTabs(callback){
 
 function save_tabspace(){    
 
-    //getCount(getCount_Callback);
+    getCount(getCount_Callback);
     grabTabs(grabTabs_Callback);
                         
 }
