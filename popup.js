@@ -265,4 +265,9 @@ window.onload = function(){
         nodeBlock.appendChild(removeBlockTab);
     }
     ) 
+      // Allow "Submit" button to return to home
+    $('#changetabbutton').click(function(event){
+        event.preventDefault();
+        $('#mytabs a[href="#home"]').tab('show');
+    })
 };
