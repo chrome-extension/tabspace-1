@@ -24,11 +24,15 @@ function saveTS(){
     });
     $("#list-block li").each(function() { tabspace.blocksArray.push($(this).text()) });
 
-    chrome.storage.local.get(null, function(result){     //result always undefined, not used    
-        var totalObjects = {};
-        totalObjects[tabspace.name] = tabspace;
-        chrome.storage.sync.set(totalObjects);        
-    });
+    // chrome.storage.local.get(null, function(result){     //result always undefined, not used    
+    //     var totalObjects = {};
+    //     totalObjects[tabspace.name] = tabspace;
+    //     chrome.storage.sync.set(totalObjects);        
+    // });
+    
+    var totalObjects = {};
+    totalObjects[tabspace.name] = tabspace;
+    chrome.storage.sync.set(totalObjects);    
 
     //Append button to DOM
     var html = buildButton(name);
