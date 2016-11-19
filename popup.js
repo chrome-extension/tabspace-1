@@ -265,4 +265,9 @@ window.onload = function(){
         nodeBlock.appendChild(removeBlockTab);
     }
     ) 
+
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();   
+    });
 };
+
