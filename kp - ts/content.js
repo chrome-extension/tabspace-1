@@ -22,7 +22,18 @@ chrome.storage.local.get(null, function(curTS_Result){
 			}	
 		// Construct block page
 			var htmlNode = document.createElement("html");
-			htmlNode.innerHTML = "<body><h1>PAGE BLOCKED</h1></body>"
+			htmlNode.innerHTML = "\
+				<head>\
+					<style type='text/css'>\
+						#title {\
+							    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;\
+    							font-size: 18px;\
+						}\
+					</style>\
+				</head>\
+				<body>\
+					<h1 id='title'>PAGE BLOCKED</h1>\
+				</body>"
 			document.appendChild(htmlNode);
 		}
 	});
