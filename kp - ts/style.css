@@ -22,6 +22,11 @@
     margin-bottom: 0px;
 }
 
+.curTS {
+    background-color: #ADD8E6;
+    text-decoration-color: #ADD8E6;
+}
+
 /* link */
 .navbar-default .nav-stacked > li > a {
 }

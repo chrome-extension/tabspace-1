@@ -5,6 +5,8 @@ function Tabspace(theName){
     this.blocksArray = [];
 }
 
+var currentTS = "";
+
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
@@ -38,16 +40,20 @@ function saveTS(){
 and display them as Buttons on the home page.
 Invokes setButtonClick function afterwards to set On-Click attributes for the generated buttons -*/
 function displayButtons(){
+    chrome.storage.local.get(null, function(curTS_Result){
     chrome.storage.sync.get(null, function(result){
-        console.log("in display button:", result);        
+
+        console.log("in display button:", curTS_Result); 
+
         for(objects in result){
             var tabObject = result[objects];
             console.log("tabObject: " , tabObject);
             var name = tabObject.name;
-            var html = buildButton(name);
+            var html = buildButton(name, curTS_Result);
             $('#generateTabs').append(html);   
         }
         
+    });
     });
     setTimeout(setButtonClick, 1000);
 }
@@ -61,8 +67,14 @@ function randomSrc(){
     return imageUrls[randomIndex];
 }
 
-function buildButton(name){
-     return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
+function buildButton(name, curTS){    
+
+    if (curTS == name){
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  class="curTS" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
+    } else {
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
+    }
+    
 }
 
 
@@ -100,7 +112,7 @@ function displayLinks(name){
                     chrome.tabs.create({url : tempUrl});                           
                 }
               
-                chrome.storage.local.set({currentTabspace : name});
+                chrome.storage.local.set({currentTabspace : name});                
             }
             setTimeout(closeTabs(tabs_to_close), 1000);
         });
