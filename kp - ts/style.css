@@ -23,8 +23,10 @@
 }
 
 .curTS {
-    background-color: #ADD8E6;
+    background-color: #ffffec;
     text-decoration-color: #ADD8E6;
+    border-radius: 15px;
+    /*color: #bbbbbb;*/
 }
 
 /* link */
@@ -102,6 +104,8 @@ input:focus:-moz-placeholder { color:transparent; }
     width: 80%;
     height: 80%;
     border-radius: 15px;
+    button:focus {outline:0;}
+
 }
 
 #question-mark {
