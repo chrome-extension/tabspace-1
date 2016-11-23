@@ -65,9 +65,9 @@ function buildButton(name, curTS){
     console.log(curTS);
     if (curTS == name){
         console.log("curTS == name");
-        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p class="curTS">' + name + '</p>' + '</div>';            
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p class="curTS" id="title">' + name + '</p>' + '</div>';            
     } else {
-        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p id="title">' + name + '</p>' + '</div>';            
     }
     
 }
@@ -243,6 +243,7 @@ window.onload = function(){
         var removeAddTab = document.createElement('input');
         removeAddTab.setAttribute('type', 'button');
         removeAddTab.setAttribute("value", "x");
+        removeAddTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeAddTab.setAttribute("id", "removeButton");
         removeAddTab.addEventListener('click', function(e) {
             nodeAdd.parentNode.removeChild(nodeAdd);
@@ -273,6 +274,7 @@ window.onload = function(){
         var removeBlockTab = document.createElement('input');
         removeBlockTab.setAttribute('type', 'button');
         removeBlockTab.setAttribute("value", "x");
+        removeBlockTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeBlockTab.setAttribute("id", "removeButton");
         removeBlockTab.addEventListener('click', function(e) {
             nodeBlock.parentNode.removeChild(nodeBlock);
