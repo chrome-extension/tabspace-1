@@ -5,16 +5,11 @@ function Tabspace(theName){
     this.blocksArray = [];
 }
 
-function sanitize(str) {
-    //regex to find & < > characters and replace them with html values
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
     var substring = "https://";
-    var name = sanitize(document.getElementById("textbox-name").value);
+    var name = document.getElementById("textbox-name").value;
     tabspace = new Tabspace(name);
     $("#list-add li").each(function() { 
         var fullSiteName = "";
@@ -70,9 +65,9 @@ function buildButton(name, curTS){
     console.log(curTS);
     if (curTS == name){
         console.log("curTS == name");
-        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p class="curTS" id="title">' + name + '</p>' + '</div>';            
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p class="curTS">' + name + '</p>' + '</div>';            
     } else {
-        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p id="title">' + name + '</p>' + '</div>';            
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
     }
     
 }
@@ -218,6 +213,14 @@ function save_tabspace(){
     grabTabs(grabTabs_Callback);
                         
 }
+r
+function init_testing(){
+    chrome.tabs.create({url : "www.myspace.com"});   
+    chrome.tabs.create({url : "twitter.com"});   
+
+    var blacklist = "twitter.com";
+
+}
 
 window.onload = function(){
 
@@ -248,7 +251,6 @@ window.onload = function(){
         var removeAddTab = document.createElement('input');
         removeAddTab.setAttribute('type', 'button');
         removeAddTab.setAttribute("value", "x");
-        removeAddTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeAddTab.setAttribute("id", "removeButton");
         removeAddTab.addEventListener('click', function(e) {
             nodeAdd.parentNode.removeChild(nodeAdd);
@@ -279,7 +281,6 @@ window.onload = function(){
         var removeBlockTab = document.createElement('input');
         removeBlockTab.setAttribute('type', 'button');
         removeBlockTab.setAttribute("value", "x");
-        removeBlockTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeBlockTab.setAttribute("id", "removeButton");
         removeBlockTab.addEventListener('click', function(e) {
             nodeBlock.parentNode.removeChild(nodeBlock);
