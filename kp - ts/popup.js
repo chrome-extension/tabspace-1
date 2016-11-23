@@ -13,7 +13,7 @@ function sanitize(str) {
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
-    var substring = "https://";
+    var substring = "http://";
     var name = sanitize(document.getElementById("textbox-name").value);
     tabspace = new Tabspace(name);
     $("#list-add li").each(function() { 
