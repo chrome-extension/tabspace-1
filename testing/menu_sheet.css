@@ -1,0 +1,15 @@
+div {
+	margin: 10px auto 10px;
+}
+
+.button1 {
+	font-size: 12px;
+	padding: 12px 6px;
+	border-radius: 12px;
+	background-color: #66ccff;
+	width: 60px;
+}
+
+.button1:focus {
+	outline: none;
+}
