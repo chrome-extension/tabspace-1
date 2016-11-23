@@ -5,11 +5,16 @@ function Tabspace(theName){
     this.blocksArray = [];
 }
 
+function sanitize(str) {
+    //regex to find & < > characters and replace them with html values
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
     var substring = "https://";
-    var name = document.getElementById("textbox-name").value;
+    var name = sanitize(document.getElementById("textbox-name").value);
     tabspace = new Tabspace(name);
     $("#list-add li").each(function() { 
         var fullSiteName = "";
