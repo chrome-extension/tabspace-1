@@ -7,23 +7,23 @@
           "tabs"
   ],
   "browser_action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup/popup.html"
   },
-  "icons": { "16": "tab-16.png",
-            "48": "tab-48.png",
-            "128": "tab-128.png"
+  "icons": { "16": "img/tab-16.png",
+            "48": "img/tab-48.png",
+            "128": "img/tab-128.png"
   },
   "content_security_policy": "script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css https://code.jquery.com/jquery-1.10.2.js https://code.jquery.com/ui/1.10.4/jquery-ui.js https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js 'unsafe-eval'; object-src 'self'",
  
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["popup/background.js"]
   },
   "content_scripts": [
     {
         "matches": [
         "<all_urls>"
         ],
-        "js": ["content.js"]
+        "js": ["popup/content.js"]
     }
   ]  
 
