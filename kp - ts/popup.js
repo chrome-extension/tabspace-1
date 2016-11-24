@@ -10,7 +10,7 @@ var currentTS = "";
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
-    var substring = "https://";
+    var substring = "http://";
     var name = document.getElementById("textbox-name").value;
     tabspace = new Tabspace(name);
     $("#list-add li").each(function() { 
@@ -114,7 +114,7 @@ function displayLinks(name){
               
                 chrome.storage.local.set({currentTabspace : name});                
             }
-            setTimeout(closeTabs(tabs_to_close), 1000);
+            //setTimeout(closeTabs(tabs_to_close), 1000);
         });
         
     });
@@ -220,13 +220,19 @@ function save_tabspace(){
                         
 }
 
+//Function to load edit page
+function loadEditPage(){
+    chrome.tabs.create({active: true, url: chrome.extension.getURL('editTS.html')});
+}
+
 window.onload = function(){
 
     displayButtons();
    
     //Set on click attribute for submit,edit buttons
-    var submitButton = document.getElementById("changetabbutton").addEventListener('click', saveTS);;
-
+    var submitButton = document.getElementById("changetabbutton").addEventListener('click', saveTS);
+    var editBttn = document.getElementById("loadEdit").addEventListener('click', loadEditPage);
+    
     // ADD TABS
     // Enter key is pressed
     addValue = document.getElementById("textbox-add");
