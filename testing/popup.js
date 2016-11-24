@@ -5,8 +5,6 @@ function Tabspace(theName){
     this.blocksArray = [];
 }
 
-var currentTS = "";
-
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
@@ -41,19 +39,17 @@ and display them as Buttons on the home page.
 Invokes setButtonClick function afterwards to set On-Click attributes for the generated buttons -*/
 function displayButtons(){
     chrome.storage.local.get(null, function(curTS_Result){
-    chrome.storage.sync.get(null, function(result){
+        chrome.storage.sync.get(null, function(result){
 
-        console.log("in display button:", curTS_Result); 
+            console.log("in display button:", curTS_Result.currentTabspace); 
 
-        for(objects in result){
-            var tabObject = result[objects];
-            console.log("tabObject: " , tabObject);
-            var name = tabObject.name;
-            var html = buildButton(name, curTS_Result);
-            $('#generateTabs').append(html);   
-        }
-        
-    });
+            for(objects in result){
+                var tabObject = result[objects];                
+                var name = tabObject.name;
+                var html = buildButton(name, curTS_Result.currentTabspace);
+                $('#generateTabs').append(html);   
+            }        
+        });
     });
     setTimeout(setButtonClick, 1000);
 }
@@ -61,22 +57,20 @@ function displayButtons(){
 function randomSrc(){
     var imageUrls = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg",
                      "7.jpg","8.jpg","9.jpg","10.jpg","11.jpg","12.jpg","13.jpg","14.jpg","15.jpg"];
-    var randomIndex = Math.floor(Math.random() * imageUrls.length);
-    console.log("randomIndex: ", randomIndex);
-    console.log("imageUrl: ", imageUrls[randomIndex]);
+    var randomIndex = Math.floor(Math.random() * imageUrls.length);    
     return imageUrls[randomIndex];
 }
 
 function buildButton(name, curTS){    
-
+    console.log(curTS);
     if (curTS == name){
-        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  class="curTS" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
+        console.log("curTS == name");
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p class="curTS">' + name + '</p>' + '</div>';            
     } else {
         return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
     }
     
 }
-
 
 
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
@@ -218,6 +212,14 @@ function save_tabspace(){
     getCount(getCount_Callback);
     grabTabs(grabTabs_Callback);
                         
+}
+r
+function init_testing(){
+    chrome.tabs.create({url : "www.myspace.com"});   
+    chrome.tabs.create({url : "twitter.com"});   
+
+    var blacklist = "twitter.com";
+
 }
 
 //Function to load edit page

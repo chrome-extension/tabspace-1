@@ -5,11 +5,17 @@ function Tabspace(theName){
     this.blocksArray = [];
 }
 
+//sanitize function used for testing
+function sanitize(str) {
+    //regex to find & < > characters and replace them with html values
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
 /*-On Click function to append a new Tabspace object to global array and save into chrome.storage 
 Invokes displayButtons function afterwards to update button display on home page----------*/
 function saveTS(){
-    var substring = "https://";
-    var name = document.getElementById("textbox-name").value;
+    var substring = "http://";
+    var name = sanitize(document.getElementById("textbox-name").value);
     tabspace = new Tabspace(name);
     $("#list-add li").each(function() { 
         var fullSiteName = "";
@@ -38,33 +44,41 @@ function saveTS(){
 and display them as Buttons on the home page.
 Invokes setButtonClick function afterwards to set On-Click attributes for the generated buttons -*/
 function displayButtons(){
-    chrome.storage.sync.get(null, function(result){
-        console.log("in display button:", result);        
-        for(objects in result){
-            var tabObject = result[objects];
-            console.log("tabObject: " , tabObject);
-            var name = tabObject.name;
-            var html = buildButton(name);
-            $('#generateTabs').append(html);   
-        }
-        
+    chrome.storage.local.get(null, function(curTS_Result){
+        chrome.storage.sync.get(null, function(result){
+
+            console.log("in display button:", curTS_Result.currentTabspace); 
+
+            for(objects in result){
+                var tabObject = result[objects];                
+                var name = tabObject.name;
+                var html = buildButton(name, curTS_Result.currentTabspace);
+                $('#generateTabs').append(html);   
+            }        
+        });
     });
     setTimeout(setButtonClick, 1000);
 }
 
+//randomSrc function used to load a random image in the imageUrls video
 function randomSrc(){
     var imageUrls = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg",
                      "7.jpg","8.jpg","9.jpg","10.jpg","11.jpg","12.jpg","13.jpg","14.jpg","15.jpg"];
-    var randomIndex = Math.floor(Math.random() * imageUrls.length);
-    console.log("randomIndex: ", randomIndex);
-    console.log("imageUrl: ", imageUrls[randomIndex]);
+    var randomIndex = Math.floor(Math.random() * imageUrls.length);    
     return imageUrls[randomIndex];
 }
 
-function buildButton(name){
-     return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p>' + name + '</p>' + '</div>';            
+//creates the html element with needed values
+function buildButton(name, curTS){    
+    console.log(curTS);
+    if (curTS == name){
+        console.log("curTS == name");
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image" id="tab-images" src="images/' + randomSrc() + '"/>' + '<p class="curTS" id="title">' + name + '</p>' + '</div>';            
+    } else {
+        return '<div class="col-xs-4 individualTS"' + 'title="' + name + '">' + '<input type="image"  id="tab-images" src="images/' + randomSrc() + '"/>' + '<p id="title">' + name + '</p>' + '</div>';            
+    }
+    
 }
-
 
 
 /*-Function called after timeout to set On-Click attribute to generated Tabspace buttons.
@@ -100,7 +114,7 @@ function displayLinks(name){
                     chrome.tabs.create({url : tempUrl});                           
                 }
               
-                chrome.storage.local.set({currentTabspace : name});
+                chrome.storage.local.set({currentTabspace : name});                
             }
             setTimeout(closeTabs(tabs_to_close), 1000);
         });
@@ -108,6 +122,7 @@ function displayLinks(name){
     });
 }
 
+//closes each url in the array tabs_to_close
 function closeTabs(tabs_to_close){
     
     for(var j = 0; j < tabs_to_close.length; j++){                    
@@ -137,6 +152,7 @@ function check_LocalStorage(){
 }
 //////////////////////// create tabspace from current tabs methods
 
+//add on click event listener to the new button
 var newTSbttn = document.getElementById("newTabspaceFromTabs");
 if(newTSbttn){
 newTSbttn.addEventListener('click', save_tabspace);
@@ -201,6 +217,7 @@ function grabTabs(callback){
     
 }
 
+//save open tabs into storage as tabspaceX
 function save_tabspace(){    
 
     getCount(getCount_Callback);
@@ -237,6 +254,7 @@ window.onload = function(){
         var removeAddTab = document.createElement('input');
         removeAddTab.setAttribute('type', 'button');
         removeAddTab.setAttribute("value", "x");
+        removeAddTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeAddTab.setAttribute("id", "removeButton");
         removeAddTab.addEventListener('click', function(e) {
             nodeAdd.parentNode.removeChild(nodeAdd);
@@ -267,6 +285,7 @@ window.onload = function(){
         var removeBlockTab = document.createElement('input');
         removeBlockTab.setAttribute('type', 'button');
         removeBlockTab.setAttribute("value", "x");
+        removeBlockTab.setAttribute("class", "btn btn-default btn-xs btn-circle");
         removeBlockTab.setAttribute("id", "removeButton");
         removeBlockTab.addEventListener('click', function(e) {
             nodeBlock.parentNode.removeChild(nodeBlock);
