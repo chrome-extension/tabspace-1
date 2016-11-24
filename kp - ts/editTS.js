@@ -71,7 +71,6 @@ function listItems(tabObject, tabDivId, name, key, count_id){
            
    $(ui).appendTo(hashTabDivId);
     
-    var hash_edit_add = "edit-add";
     
     var addValue = document.getElementById(edit_add);
     addValue.addEventListener("keyup", function(event){
@@ -154,8 +153,27 @@ function listItems(tabObject, tabDivId, name, key, count_id){
                 
         }           
         
-        
+         var substring = "http://";
+         var hash_list_add = "#" + list_add + " " + "li";
+         var hash_list_block = "#" + list_block + " " + "li";
+         
         /*Update links of tabspace if user entered in links form*/
+        $(hash_list_add).each(function() { 
+            var fullSiteName = "";
+            var sitename = $(this).text();
+            console.log("List text: ", sitename);
+            if(sitename.includes(substring) !== true){           
+                fullSiteName = substring.concat(sitename);            
+            }else{
+                fullSiteName = sitename;           
+            }
+           console.log("Full sitename: ", fullSiteName);
+            tabObject.linksArray.push(fullSiteName); 
+        });
+        $(hash_list_block).each(function() { tabObject.blocksArray.push($(this).text()) });    
+        var totalObjects = {};
+        totalObjects[key] = tabObject;
+        chrome.storage.sync.set(totalObjects); 
           
    });
    
