@@ -179,7 +179,7 @@ function getCount(callback){
 //create a new tabspace with the urls of our open tabs
 //save these tabs to storage in tabspaceX format
 function grabTabs_Callback(openTabs){   
-    var tempblacklist = ["myspace.com"];
+    // var tempblacklist = ["myspace.com"];
 
     //var name = prompt("Enter a Name for the Tabspace:", "my tabspace");
     var name = document.getElementById("textbox-name").value;        
@@ -189,7 +189,7 @@ function grabTabs_Callback(openTabs){
 
     var createdTabspace = new Tabspace(name);
     createdTabspace.linksArray = openTabs;
-    createdTabspace.blocksArray = tempblacklist;
+    // createdTabspace.blocksArray = tempblacklist;
 
 
     var html = buildButton(name);
