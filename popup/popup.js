@@ -5,6 +5,7 @@ function Tabspace(theName){
     this.blocksArray = [];
 }
 
+//sanitize function used for testing
 function sanitize(str) {
     //regex to find & < > characters and replace them with html values
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -59,6 +60,7 @@ function displayButtons(){
     setTimeout(setButtonClick, 1000);
 }
 
+//randomSrc function used to load a random image in the imageUrls video
 function randomSrc(){
     var imageUrls = ["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg",
                      "7.jpg","8.jpg","9.jpg","10.jpg","11.jpg","12.jpg","13.jpg","14.jpg","15.jpg"];
@@ -66,6 +68,7 @@ function randomSrc(){
     return imageUrls[randomIndex];
 }
 
+//creates the html element with needed values
 function buildButton(name, curTS){    
     console.log(curTS);
     if (curTS == name){
@@ -119,6 +122,7 @@ function displayLinks(name){
     });
 }
 
+//closes each url in the array tabs_to_close
 function closeTabs(tabs_to_close){
     
     for(var j = 0; j < tabs_to_close.length; j++){                    
@@ -148,6 +152,7 @@ function check_LocalStorage(){
 }
 //////////////////////// create tabspace from current tabs methods
 
+//add on click event listener to the new button
 var newTSbttn = document.getElementById("newTabspaceFromTabs");
 if(newTSbttn){
 newTSbttn.addEventListener('click', save_tabspace);
@@ -212,6 +217,7 @@ function grabTabs(callback){
     
 }
 
+//save open tabs into storage as tabspaceX
 function save_tabspace(){    
 
     getCount(getCount_Callback);
