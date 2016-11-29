@@ -9,11 +9,32 @@
             
   
       <style>
+         #top{
+         background: #24a9e3;
+         }
+         
+         header{
+           height: auto;
+           width:100%;
+            padding: 0;
+            border: 1px solid;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            margin-left: auto;
+            margin-right: auto;
+         }
+         
+         header .container {
+         
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+         
          #tabs-1{font-size: 14px;}
          .ui-widget-header {
             background:#5F9EA0;
-            border: 1px solid #b9cd6d;
-            color: #F0F8FF;
+            border: 1px solid #18b3bc;
+            color: #18b3bc;
             font-weight: bold;
          }
       </style>
@@ -22,6 +43,13 @@
    </head>
 	
    <body>
+    <header>
+        <div id="top" class="container">  
+    
+            <h1>Edit your Tabspaces</h1>  
+       
+        </div>
+     </header>
       <div id = "tabs-div">
          <ul id="tabs-list">  
          </ul>

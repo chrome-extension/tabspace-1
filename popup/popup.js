@@ -1,9 +1,30 @@
+var  open_in_curr_window = localStorage.open_in_curr_window || "yes";
+
+//Bind event handler to checkbox toggle
+$(function(){
+    if(open_in_curr_window === "no"){
+        $('#toggle-event').bootstrapToggle('off');
+    }
+
+    $('#toggle-event').change(function() {
+       if(open_in_curr_window === "yes"){     
+            
+            localStorage.open_in_curr_window = "no";
+        }
+        if(open_in_curr_window === "no"){   
+            
+            localStorage.open_in_curr_window = "yes";
+        }
+    })
+});
+
 /*------Tabspace class ----------*/
 function Tabspace(theName){
     this.name = theName;
     this.linksArray = [];
     this.blocksArray = [];
 }
+
 
 //sanitize function used for testing
 function sanitize(str) {
@@ -107,13 +128,16 @@ function displayLinks(name){
             console.log("result is: ", result);       
             if (result){
                 var urls = result[key].linksArray;      
-                                      
-                for (url in urls){    
-                    var tempUrl = urls[url];                  
-                    
-                    chrome.tabs.create({url : tempUrl});                           
+
+                if(localStorage.open_in_curr_window === "yes"){
+                    chrome.windows.create({url: urls}, function(window) {
+                    });        
+                }else {
+                    for (url in urls){    
+                        var tempUrl = urls[url];                  
+                        chrome.tabs.create({url : tempUrl});    
+                    }
                 }
-              
                 chrome.storage.local.set({currentTabspace : name});                
             }
             //setTimeout(closeTabs(tabs_to_close), 1000);
@@ -179,7 +203,7 @@ function getCount(callback){
 //create a new tabspace with the urls of our open tabs
 //save these tabs to storage in tabspaceX format
 function grabTabs_Callback(openTabs){   
-    var tempblacklist = ["myspace.com"];
+    var tempblacklist = [];
 
     //var name = prompt("Enter a Name for the Tabspace:", "my tabspace");
     var name = document.getElementById("textbox-name").value;        

@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>tabspace Menu</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+       
         <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
@@ -38,9 +40,11 @@
                         <div class="tab-pane fade in active" id="home">
                             
                             <div class="row"  id="generateTabs">   
+                                <input id="toggle-event" type="checkbox" checked data-toggle="toggle" data-size="mini"> Open in new window
                                 <br>                             
                                 <a href= "#" class="links" id="newTabspaceFromTabs">Save current window as tabspace</a>
                                 <br><br><br>
+                                
                             </div>
                         </div>
 
@@ -76,9 +80,13 @@
                 </div>
             </div>
         </nav>
-        <script src="popup.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        
+        <script src="popup.js"></script>
+      
+         
     </body>
 </html>
 
