@@ -1,4 +1,5 @@
 // This file is executed on each new tab that is opened.
+ var port = chrome.extension.connect({name: "mybackgroundscript"});
 
 chrome.storage.local.get(null, function(curTS_Result){
 
@@ -16,6 +17,13 @@ chrome.storage.local.get(null, function(curTS_Result){
 		}
 		
 		if (blocked) {
+        
+        
+        chrome.extension.sendRequest({greeting:"block"}); 
+       /* chrome.runtime.onConnect.addListener(function(port){
+            port.sendMessage({greeting:"block"});
+        });*/
+        
 		// Delete all html nodes on the page
 			while (document.firstChild) {
 				document.removeChild(document.firstChild);
@@ -34,7 +42,7 @@ chrome.storage.local.get(null, function(curTS_Result){
 				<body>\
 					<h1 id='title'>PAGE BLOCKED</h1>\
 				</body>"
-			document.appendChild(htmlNode);
+			document.appendChild(htmlNode); 
 		}
 	});
 
