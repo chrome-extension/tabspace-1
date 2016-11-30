@@ -322,7 +322,21 @@ window.onload = function(){
     });
 };
 
-
+function init_testing(){
+    // test_sanitize();
+    // test_save_tabspace();
+    // test_grabTabs();
+    // test_grabTabs_Callback();
+    // test_saveTS();
+    test_displayButtons();
+    test_randomSrc();
+    test_buildButton();
+    // test_closeTabs();
+    // test_getCount();
+    // test_getCount_Callback();
+    
+    test_loadEditPage();
+}
 
 //sanitize
 function test_sanitize(){
